@@ -13,5 +13,8 @@ namespace sdp_assignment
         void pushBack(string comment);
         void approve();
         void reject(string reason);
+        void add(User collaborator);
+        void edit(User collaborator);
+        void resubmit();
     }
 }

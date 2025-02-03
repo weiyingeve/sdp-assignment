@@ -7,30 +7,17 @@ using System.Threading.Tasks;
 
 namespace sdp_assignment
 {
-    public class RejectedState : DocumentState
+    public class PushedBackState : DocumentState
     {
         private Document document;
-        public RejectedState(Document document)
+        public PushedBackState(Document document)
         {
-            this.document = document;
+            this.document=document;
         }
+
         public void submit(User approver)
         {
-            if (document.getApprover() == null)
-            {
-                foreach (User collaborator in document.collaborators)
-                {
-                    if (approver == collaborator)
-                    {
-                        Console.WriteLine("Approver cannot be a collaborator!");
-                        return;
-                    }
-                }
-                document.setApprover(approver);
-                //notify collaborators
-                //notify approver that they have been set as approver
-                document.setState(document.UnderReviewState);
-            }
+            Console.WriteLine("Unable to submit in current state. Try resubmitting instead.");
         }
         public void pushBack(string comment)
         {
@@ -60,12 +47,20 @@ namespace sdp_assignment
                 newLine = Console.ReadLine();
             }
             document.content.Add(newLine);
-            document.prevContentSize++;
             //notifyCollaborators
         }
         public void resubmit()
         {
-            Console.WriteLine("Cannot resubmit in current state.");
+            if (document.content.Count > document.prevContentSize)
+            {
+                //notify collaborators
+                document.setState(document.UnderReviewState);
+            }
+            else
+            {
+                Console.WriteLine("Please make an edit to the document before attempting to resubmit.");
+                return;
+            }
         }
     }
 }

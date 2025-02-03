@@ -13,7 +13,6 @@ namespace sdp_assignment
         {
             this.document=document;
         }
-
         public void submit(User approver)
         {
             Console.WriteLine("Unable to submit document in current state.");
@@ -22,7 +21,7 @@ namespace sdp_assignment
         {
             Console.WriteLine("Document has been pushed back. Comment - " + comment);
             //notify observers
-            document.setState(document.DraftState);
+            document.setState(document.PushedBackState);
         }
         public void approve()
         {
@@ -33,8 +32,21 @@ namespace sdp_assignment
         public void reject(string reason)
         {
             Console.WriteLine("Document has been rejected. Reason - " + reason);
+            document.setApprover(null);
             //notify observers
             document.setState(document.RejectedState);
+        }
+        public void add(User collaborator)
+        {
+            document.collaborators.Add(collaborator);
+        }
+        public void edit(User collaborator)
+        {
+            Console.WriteLine("Unable to edit when document is under review.");
+        }
+        public void resubmit()
+        {
+            Console.WriteLine("Unable to resubmit in current state.");
         }
     }
 }

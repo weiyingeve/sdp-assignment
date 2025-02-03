@@ -43,5 +43,28 @@ namespace sdp_assignment
         {
             Console.WriteLine("Unable to reject in current state.");
         }
+        public void add(User collaborator)
+        {
+            document.collaborators.Add(collaborator);
+        }
+        public void edit(User collaborator)
+        {
+            string newLine;
+            Console.Write("Enter string to add to document: ");
+            newLine = Console.ReadLine();
+            while (string.IsNullOrEmpty(newLine))
+            {
+                Console.WriteLine("String cannot be empty! Try again.");
+                Console.Write("Enter string to add to document: ");
+                newLine = Console.ReadLine();
+            }
+            document.content.Add(newLine);
+            document.prevContentSize++;
+            //notifyCollaborators
+        }
+        public void resubmit()
+        {
+            Console.WriteLine("Cannot resubmit in current state.");
+        }
     }
 }
