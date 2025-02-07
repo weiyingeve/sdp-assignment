@@ -12,14 +12,14 @@ namespace sdp_assignment
         private DocumentState prevState;
         private DocumentState newState;
         private User collaborator;
-        public SubmitCommand(Document document, DocumentState newState)
+        public SubmitCommand(Document document, DocumentState newState, User collaborator)
         {
             this.document = document;
             this.newState = newState;
-        }
-        public void execute(User collaborator)
-        {
             this.collaborator = collaborator;
+        }
+        public void execute()
+        {
             prevState = document.getState();
             document.getState().submit(this.collaborator);
             //notify observers
@@ -31,7 +31,7 @@ namespace sdp_assignment
         }
         public void redo()
         {
-            execute(this.collaborator);
+            execute();
         }
     }
 }
