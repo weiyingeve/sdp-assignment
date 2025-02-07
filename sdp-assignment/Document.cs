@@ -11,6 +11,7 @@ namespace sdp_assignment
         private User owner;
         private User approver;
         public List<User> collaborators { get; } = new List<User>();
+        public string title { get; set; }
         public List<string> content { get; set; } = new List<string>();
         public int prevContentSize { get; set; }
         // for state design pattern
