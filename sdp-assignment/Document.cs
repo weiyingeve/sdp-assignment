@@ -11,7 +11,7 @@ namespace sdp_assignment
         private User owner;
         private User approver;
         public List<User> collaborators { get; } = new List<User>();
-        public List<string> content { get; } = new List<string>();
+        public List<string> content { get; set; } = new List<string>();
         public int prevContentSize { get; set; }
         //for state design pattern
         public DocumentState DraftState { get; private set; }
@@ -42,6 +42,10 @@ namespace sdp_assignment
         }
 
         //for state design pattern
+        public DocumentState getState()
+        {
+            return state;
+        }
         public void setState(DocumentState state)
         {
             this.state = state;
