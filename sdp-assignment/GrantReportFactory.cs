@@ -6,7 +6,26 @@ using System.Threading.Tasks;
 
 namespace sdp_assignment
 {
-    internal class GrantReportFactory
+    public class GrantReportFactory : DocumentFactory
     {
+        public Document createDocument(User owner)
+        {
+            return new GrantReport(owner, this);
+        }
+
+        public Header createHeader(string content)
+        {
+            return new Header("Grant Report Header");
+        }
+
+        public Body createBody(string content)
+        {
+            return new Body("Grant Report Body Content");
+        }
+
+        public Footer createFooter(string content)
+        {
+            return new Footer("Grant Report Footer");
+        }
     }
-}
+    }

@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace sdp_assignment
 {
-    internal class DocumentComponent
+    public interface DocumentComponent
     {
+        void Render();
+        void Edit(string content);
     }
 }
