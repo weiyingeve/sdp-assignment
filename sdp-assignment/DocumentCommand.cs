@@ -8,8 +8,8 @@ namespace sdp_assignment
 {
     public interface DocumentCommand
     {
-        void Execute();
-        void Undo();
-        void Redo();
+        void execute();
+        void undo();
+        void redo();
     }
 }
