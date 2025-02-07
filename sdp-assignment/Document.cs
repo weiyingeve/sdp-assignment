@@ -13,15 +13,28 @@ namespace sdp_assignment
         public List<User> collaborators { get; } = new List<User>();
         public List<string> content { get; } = new List<string>();
         public int prevContentSize { get; set; }
-        //for state design pattern
+        // for state design pattern
         public DocumentState DraftState { get; private set; }
         public DocumentState UnderReviewState { get; private set; }
         public DocumentState ApprovedState { get; private set; }
         public DocumentState RejectedState { get; private set; }
         public DocumentState PushedBackState { get; private set; }
         private DocumentState state;
+        
+        // for abstract factory design pattern
+        public Header Header { get; set; }
+        public Footer Footer { get; set; }
+        public Body Body { get; set; }
+        public void Render()
+        {
+            Console.WriteLine("=== Document Content: ===");
+            Header.Render();
+            Body.Render();
+            Footer.Render();
+            Console.WriteLine("------------------------\n");
+        }
 
-        //general methods
+        // general methods
         public Document(User owner)
         {
             this.owner = owner;

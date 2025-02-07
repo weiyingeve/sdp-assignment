@@ -6,7 +6,23 @@ using System.Threading.Tasks;
 
 namespace sdp_assignment
 {
-    internal class Body
+    public class Body : DocumentComponent
     {
+        public string Content { get; set; }
+
+        public Body(string content)
+        {
+            Content = content;
+        }
+
+        public void Render()
+        {
+            Console.WriteLine($"Body: {Content}");
+        }
+
+        public void Edit(string content)
+        {
+            Content = content;
+        }
     }
 }

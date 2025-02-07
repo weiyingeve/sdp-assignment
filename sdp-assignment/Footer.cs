@@ -6,7 +6,23 @@ using System.Threading.Tasks;
 
 namespace sdp_assignment
 {
-    internal class Footer
+    public class Footer : DocumentComponent
     {
+        public string Content { get; set; }
+
+        public Footer(string content)
+        {
+            Content = content;
+        }
+
+        public void Render()
+        {
+            Console.WriteLine($"Footer: {Content}");
+        }
+
+        public void Edit(string content)
+        {
+            Content = content;
+        }
     }
 }
