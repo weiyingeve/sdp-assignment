@@ -8,5 +8,6 @@ namespace sdp_assignment
 {
     public class User
     {
+        
     }
 }
