@@ -35,9 +35,9 @@ namespace sdp_assignment
             Console.WriteLine("------------------------\n");
         }
 
-
         //for strategy design pattern
         public IDocumentConverter DocumentConverter { get; set; }
+
 
         // general methods
         public Document(User owner, string title)
@@ -45,11 +45,6 @@ namespace sdp_assignment
             this.owner = owner;
             collaborators.Add(owner);
             this.title = title;
-        }
-
-        public Document(User owner)
-        {
-            this.owner = owner;
         }
 
         public User getOwner()
