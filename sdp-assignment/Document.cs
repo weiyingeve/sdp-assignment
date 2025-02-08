@@ -35,17 +35,23 @@ namespace sdp_assignment
             Console.WriteLine("------------------------\n");
         }
 
-        // general methods
-        public Document(User owner, string title)
 
         //for strategy design pattern
         public IDocumentConverter DocumentConverter { get; set; }
 
+        // general methods
+        public Document(User owner, string title)
         {
             this.owner = owner;
             collaborators.Add(owner);
             this.title = title;
         }
+
+        public Document(User owner)
+        {
+            this.owner = owner;
+        }
+
         public User getOwner()
         {
             return owner;
@@ -65,7 +71,7 @@ namespace sdp_assignment
         {
             return state;
         }
-        public void setState(DocumentState state)
+        public virtual void setState(DocumentState state)
         {
             this.state = state;
         }
@@ -86,7 +92,7 @@ namespace sdp_assignment
             state.reject(reason);
         }
 
-        public void addCollaborator(User collaborator)
+        public virtual void addCollaborator(User collaborator)
         {
             state.add(collaborator);
         }
