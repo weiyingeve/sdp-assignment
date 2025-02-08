@@ -37,6 +37,10 @@ namespace sdp_assignment
 
         // general methods
         public Document(User owner, string title)
+
+        //for strategy design pattern
+        public IDocumentConverter DocumentConverter { get; set; }
+
         {
             this.owner = owner;
             collaborators.Add(owner);
@@ -94,6 +98,19 @@ namespace sdp_assignment
         public void resubmitDocument()
         {
             state.resubmit();
+        }
+
+        //for strategy design pattern
+        public void ConvertDocument()
+        {
+            if (DocumentConverter == null)
+            {
+                Console.WriteLine("No document converter set.");
+            }
+            else
+            {
+                DocumentConverter.Convert(this);
+            }
         }
     }
 }
