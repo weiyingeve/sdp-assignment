@@ -35,17 +35,18 @@ namespace sdp_assignment
             Console.WriteLine("------------------------\n");
         }
 
-        // general methods
-        public Document(User owner, string title)
-
         //for strategy design pattern
         public IDocumentConverter DocumentConverter { get; set; }
 
+
+        // general methods
+        public Document(User owner, string title)
         {
             this.owner = owner;
             collaborators.Add(owner);
             this.title = title;
         }
+
         public User getOwner()
         {
             return owner;
