@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace sdp_assignment
 {
     // User Class
-    public class User
+    public class User : Observer
     {
         private string username;
         public List<Document> documents { get; set; } = new List<Document>();
@@ -27,6 +27,12 @@ namespace sdp_assignment
         public string getUsername()
         {
             return username;
+        }
+
+        public string Username { get; private set; }
+        public void Update(WorkflowDocument document)
+        {
+            Console.WriteLine($"{Username} received a notification: Document '{document.title}' has been updated.");
         }
         public void viewDocuments()
         {
@@ -138,6 +144,11 @@ namespace sdp_assignment
         public void redoCommand()
         {
             prevCommand.redo();
+        }
+
+        public void update(WorkflowDocument workflowDocument)
+        {
+            throw new NotImplementedException();
         }
     }
 

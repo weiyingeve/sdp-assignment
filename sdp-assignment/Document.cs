@@ -66,7 +66,7 @@ namespace sdp_assignment
         {
             return state;
         }
-        public void setState(DocumentState state)
+        public virtual void setState(DocumentState state)
         {
             this.state = state;
         }
@@ -87,7 +87,7 @@ namespace sdp_assignment
             state.reject(reason);
         }
 
-        public void addCollaborator(User collaborator)
+        public virtual void addCollaborator(User collaborator)
         {
             state.add(collaborator);
         }
