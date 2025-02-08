@@ -64,7 +64,7 @@ namespace sdp_assignment
                 document.submitForApproval(approver);
             }
         }
-        public void editDocument(Document document, string newContent)
+        public void editDocument(Document document)
         {
             EditCommand edit = new EditCommand(document, this);
             setCommand(edit);
