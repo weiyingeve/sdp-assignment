@@ -21,6 +21,9 @@ namespace sdp_assignment
         public DocumentState PushedBackState { get; private set; }
         private DocumentState state;
 
+        //for strategy design pattern
+        public IDocumentConverter DocumentConverter { get; set; }
+
         //general methods
         public Document(User owner)
         {
@@ -75,6 +78,19 @@ namespace sdp_assignment
         public void resubmitDocument()
         {
             state.resubmit();
+        }
+
+        //for strategy design pattern
+        public void ConvertDocument()
+        {
+            if (DocumentConverter == null)
+            {
+                Console.WriteLine("No document converter set.");
+            }
+            else
+            {
+                DocumentConverter.Convert(this);
+            }
         }
     }
 }
