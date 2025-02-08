@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace sdp_assignment
 {
-    internal class DocumentFactory
+    public interface DocumentFactory
     {
+        public Document createDocument(User owner);
+        public Header createHeader(string content);
+        public Footer createFooter(string content);
+        public Body createBody(string content);
     }
 }

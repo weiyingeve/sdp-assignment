@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace sdp_assignment
 {
-    internal class Appendix
+    public interface DocumentCommand
     {
+        void execute();
+        void undo();
+        void redo();
     }
 }

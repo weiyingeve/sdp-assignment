@@ -6,7 +6,23 @@ using System.Threading.Tasks;
 
 namespace sdp_assignment
 {
-    internal class Header
+    public class Header : DocumentComponent
     {
+        public string Content { get; set; }
+
+        public Header(string content)
+        {
+            Content = content;
+        }
+
+        public void Render()
+        {
+            Console.WriteLine($"Header: {Content}");
+        }
+
+        public void Edit(string content)
+        {
+            Content = content;
+        }
     }
 }
