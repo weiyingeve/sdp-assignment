@@ -12,19 +12,21 @@ namespace sdp_assignment
     public class User
     {
         private string username;
-        private string email;
         public List<Document> documents { get; set; } = new List<Document>();
 
         //attributes for command
         private DocumentCommand slot;
         private DocumentCommand prevCommand;
-        public User(string username, string email)
+        public User(string username)
         {
             this.username=username;
-            this.email=email;
 
             DocumentCommand noCommand = new NoCommand();
             prevCommand = noCommand;
+        }
+        public string getUsername()
+        {
+            return username;
         }
         public void viewDocuments()
         {

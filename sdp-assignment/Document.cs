@@ -36,10 +36,11 @@ namespace sdp_assignment
         }
 
         // general methods
-        public Document(User owner)
+        public Document(User owner, string title)
         {
             this.owner = owner;
             collaborators.Add(owner);
+            this.title = title;
         }
         public User getOwner()
         {
