@@ -47,6 +47,11 @@ namespace sdp_assignment
             this.title = title;
         }
 
+        public Document(User owner)
+        {
+            this.owner = owner;
+        }
+
         public User getOwner()
         {
             return owner;
