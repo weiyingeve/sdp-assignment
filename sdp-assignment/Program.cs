@@ -66,6 +66,8 @@ void Main()
                                                                     if (x.getUsername() == collaboratorName)
                                                                     {
                                                                         i.addCollaborator(document, x);
+                                                                        document.Attach(x); // Register collaborator as observer
+                                                                        Console.WriteLine($"{collaboratorName} added as a collaborator and will now receive updates.");
                                                                         break;
                                                                     }
                                                                 }
@@ -75,6 +77,7 @@ void Main()
                                                             break;
                                                         case 2: //edit document
                                                             i.editDocument(document);
+                                                            document.Notify(); // Notify all collaborators about the change
                                                             break;
                                                         case 3: //submit document for approval
                                                             Console.WriteLine("Enter name of approver: ");
@@ -86,6 +89,7 @@ void Main()
                                                                     if (x.getUsername() == approverName)
                                                                     {
                                                                         i.submitForApproval(document, x);
+                                                                        document.Notify(); // Notify all collaborators about the change
                                                                         break;
                                                                     }
                                                                 }
