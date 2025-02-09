@@ -2,7 +2,7 @@
 using System.ComponentModel.Design;
 using System.Reflection.Metadata;
 using Document = sdp_assignment.Document;
-
+Main();
 void Main()
 {
     List<User> users = new List<User>();
