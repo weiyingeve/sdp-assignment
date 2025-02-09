@@ -19,8 +19,11 @@ public class WorkflowDocument : Document, DocumentSubject
 
     public void Notify()
     {
+        Console.WriteLine("Notify() function called. Notifying all observers...");
+
         foreach (var observer in observers)
         {
+            Console.WriteLine($"Notifying {((User)observer).getUsername()} about the document update.");
             observer.update(this);
         }
     }

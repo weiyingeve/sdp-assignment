@@ -77,6 +77,7 @@ void Main()
                                                             break;
                                                         case 2: //edit document
                                                             i.editDocument(document);
+                                                            Console.WriteLine($"Document \"{document.title}\" edited. Notifying collaborators...");
                                                             document.Notify(); // Notify all collaborators about the change
                                                             break;
                                                         case 3: //submit document for approval
@@ -89,6 +90,7 @@ void Main()
                                                                     if (x.getUsername() == approverName)
                                                                     {
                                                                         i.submitForApproval(document, x);
+                                                                        Console.WriteLine($"Document \"{document.title}\" submitted for approval to {approverName}.");
                                                                         document.Notify(); // Notify all collaborators about the change
                                                                         break;
                                                                     }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace sdp_assignment
 {
@@ -148,7 +149,7 @@ namespace sdp_assignment
 
         public void update(WorkflowDocument workflowDocument)
         {
-            throw new NotImplementedException();
+            Console.WriteLine($"{Username} received a notification: Document '{workflowDocument.title}' has been updated.");
         }
     }
 
