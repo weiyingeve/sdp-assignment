@@ -27,6 +27,7 @@ namespace sdp_assignment
                 }
                 document.setApprover(approver);
                 //notify collaborators
+                document.Notify();
                 //notify approver that they have been set as approver
             }
             document.setState(document.UnderReviewState);
@@ -61,6 +62,7 @@ namespace sdp_assignment
             document.content.Add(newLine);
             document.prevContentSize++;
             //notifyCollaborators
+            document.Notify();
         }
         public void resubmit()
         {

@@ -47,6 +47,11 @@ namespace sdp_assignment
             this.title = title;
         }
 
+        public Document(User owner)
+        {
+            this.owner = owner;
+        }
+
         public User getOwner()
         {
             return owner;
@@ -112,6 +117,16 @@ namespace sdp_assignment
             {
                 DocumentConverter.Convert(this);
             }
+        }
+
+        internal void Notify()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void Attach(User x)
+        {
+            throw new NotImplementedException();
         }
     }
 }

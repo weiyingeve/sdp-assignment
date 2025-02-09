@@ -48,12 +48,14 @@ namespace sdp_assignment
             }
             document.content.Add(newLine);
             //notifyCollaborators
+            document.Notify();
         }
         public void resubmit()
         {
             if (document.content.Count > document.prevContentSize)
             {
                 //notify collaborators
+                document.Notify();
                 document.setState(document.UnderReviewState);
             }
             else
