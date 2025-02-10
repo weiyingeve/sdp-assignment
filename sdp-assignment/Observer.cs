@@ -8,7 +8,6 @@ namespace sdp_assignment
 {
     public interface Observer
     {
-        void update(WorkflowDocument workflowDocument);
         void update(string message);
     }
 }

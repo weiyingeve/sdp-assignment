@@ -11,9 +11,6 @@ void Main()
     users.Add(new User("John"));
     users.Add(new User("Jane"));
     users.Add(new User("Mary"));
-    // Create sample documents
-    Document doc = new Document( users[0],"Sample Document");
-    users[0].documents.Add(doc);
 
     bool mainMenuActive = true;
     while (mainMenuActive)

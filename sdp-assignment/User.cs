@@ -47,6 +47,7 @@ namespace sdp_assignment
             {
                 doc.AddContent(line);
             }
+            documents.Add(doc);
             doc.registerObserver(this);
             return doc;
         }

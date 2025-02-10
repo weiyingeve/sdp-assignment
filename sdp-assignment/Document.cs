@@ -15,15 +15,15 @@ namespace sdp_assignment
         public List<string> content { get; set; } = new List<string>();
         public int prevContentSize { get; set; } = 0;
         // for state design pattern
-        public DocumentState DraftState { get; private set; }
-        public DocumentState UnderReviewState { get; private set; }
-        public DocumentState ApprovedState { get; private set; }
-        public DocumentState RejectedState { get; private set; }
-        public DocumentState PushedBackState { get; private set; }
+        public DocumentState DraftState { get; set; }
+        public DocumentState UnderReviewState { get; set; }
+        public DocumentState ApprovedState { get; set; }
+        public DocumentState RejectedState { get; set; }
+        public DocumentState PushedBackState { get; set; }
         private DocumentState state;
 
         //for observer class
-        public List<Observer> collaborators {  get; private set; }
+        public List<Observer> collaborators {  get; set; }
 
         // for abstract factory design pattern
         public Header header { get; set; }
@@ -55,10 +55,10 @@ namespace sdp_assignment
             collaborators = new List<Observer>();
 
             this.owner = owner;
-            collaborators.Add(owner);
+            registerObserver(owner);
             this.title = title;
             content = new List<string>();
-
+            Console.WriteLine(this.ToString());
             DraftState = new DraftState(this);
             UnderReviewState = new UnderReviewState(this);
             ApprovedState = new ApprovedState(this);
@@ -68,10 +68,6 @@ namespace sdp_assignment
             state = DraftState;
         }
 
-        public Document(string title, string type, List<string> content)
-        {
-            this.owner = owner;
-        }
 
         public User getOwner()
         {
@@ -157,7 +153,10 @@ namespace sdp_assignment
 
         public void registerObserver(Observer observer)
         {
-            collaborators.Add(observer);
+            if (observer != null)
+            {
+                collaborators.Add(observer);
+            }
         }
         public void removeObserver(Observer o)
         {
