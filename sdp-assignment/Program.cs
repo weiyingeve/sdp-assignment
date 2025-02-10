@@ -28,7 +28,7 @@ void MainMenu(List<User> users)
                 if (users.Exists(u => u.getUsername() == newAccount))
                 {
                     Console.WriteLine("User already exists.");
-                    return;
+                    break;
                 }
                 users.Add(new User(newAccount));
                 Console.WriteLine("User created successfully!");
@@ -240,7 +240,6 @@ void OwnerMenu(List<User> users, User owner, Document document)
                 if (collaborator != null)
                 {
                     owner.addCollaborator(document, collaborator);
-                    Console.WriteLine("Collaborator added.");
                 }
                 else
                 {
