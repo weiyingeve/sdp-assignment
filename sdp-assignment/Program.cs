@@ -296,6 +296,9 @@ void OwnerMenu(List<User> users, User owner, Document document)
             case 7: //undo last command
                 owner.undoCommand();
                 break;
+            case 8: //redo command
+                owner.redoCommand();
+                break;
             case 0:
                 Console.WriteLine("Returning to User Menu...");
                 ownerMenuActive = false;
@@ -319,6 +322,7 @@ int printOwnerMenu()
     Console.WriteLine("[5] Produce converted type");
     Console.WriteLine("[6] Print document contents");
     Console.WriteLine("[7] Undo last command");
+    Console.WriteLine("[8] Redo last command");
     Console.WriteLine("[0] Return to main menu");
     Console.WriteLine();
     Console.WriteLine("Enter choice: ");
@@ -382,8 +386,11 @@ void CollaboratorMenu(List<User> users, User collaborator, Document document)
             case 5: //print document contents
                 document.Display();
                 break;
-            case 6:
+            case 6: //undo command
                 collaborator.undoCommand();
+                break;
+            case 7: //redo command
+                collaborator.redoCommand();
                 break;
             case 0:
                 Console.WriteLine("Returning to User Menu...");
@@ -407,6 +414,7 @@ int printCollaboratorMenu()
     Console.WriteLine("[4] Produce converted type");
     Console.WriteLine("[5] Print document contents");
     Console.WriteLine("[6] Undo last command");
+    Console.WriteLine("[7] Redo last command");
     Console.WriteLine("[0] Return to main menu");
     Console.WriteLine();
     Console.WriteLine("Enter choice: ");

@@ -153,7 +153,7 @@ namespace sdp_assignment
 
         public void registerObserver(Observer observer)
         {
-            if (observer != null && !collaborators.Contains(observer))
+            if (observer != null && !collaborators.Contains(observer) && observer != approver)
             {
                 collaborators.Add(observer);
             }

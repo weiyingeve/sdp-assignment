@@ -25,7 +25,7 @@ namespace sdp_assignment
         public void undo()
         {
             document.content = prevContent;
-            Console.WriteLine($"Last edit made by {collaborator.getUsername} in document {document.title} was removed.");
+            Console.WriteLine($"Last edit made by {collaborator.getUsername()} in document {document.title} was removed.");
         }
         public void redo()
         {

@@ -55,6 +55,16 @@ namespace sdp_assignment
         {
             Console.WriteLine($"{username} received a notification: {message}");
         }
+        public void addDocument(DocumentSubject document)
+        {
+            documents.Add(document);
+            document.registerObserver(this);
+        }
+        public void removeDocument(DocumentSubject document)
+        {
+            documents.Remove(document);
+            document.removeObserver(this);
+        }
         public void viewDocuments()
         {
             Console.WriteLine("Your Documents:");

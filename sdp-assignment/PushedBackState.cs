@@ -33,8 +33,8 @@ namespace sdp_assignment
         }
         public void add(User collaborator)
         {
-            document.registerObserver(collaborator);
-            document.notifyObservers($"User {collaborator.getUsername} has been added to document {document.title}.");
+            collaborator.addDocument(document);
+            document.notifyObservers($"User {collaborator.getUsername()} has been added to document {document.title}.");
         }
         public void edit(User collaborator)
         {
@@ -48,8 +48,9 @@ namespace sdp_assignment
                 newLine = Console.ReadLine();
             }
             document.content.Add(newLine);
-            //notifyCollaborators
-            document.notifyObservers($"{collaborator.getUsername} has made an edit to {document.title}.");
+            Console.WriteLine($"Document {document.title} has been edited. Notifying collaborators...");
+            document.prevContentSize++;
+            document.notifyObservers($"{collaborator.getUsername()} has made an edit to {document.title}");
         }
         public void resubmit()
         {

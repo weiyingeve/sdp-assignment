@@ -26,6 +26,7 @@ namespace sdp_assignment
                     }
                 }
                 document.setApprover(approver);
+                approver.addDocument(document);
                 //notify collaborators
                 document.notifyObservers($"{approver.getUsername()} has been appointed as the approver");
                 //notify approver that they have been set as approver
@@ -48,7 +49,7 @@ namespace sdp_assignment
         }
         public void add(User collaborator)
         {
-            document.registerObserver(collaborator);
+            collaborator.addDocument(document);
             document.notifyObservers($"User {collaborator.getUsername()} has been added to document {document.title}.");
         }
         public void edit(User collaborator)

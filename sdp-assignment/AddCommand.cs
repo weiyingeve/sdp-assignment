@@ -21,7 +21,7 @@ namespace sdp_assignment
         }
         public void undo()
         {
-            document.removeObserver(this.newCollaborator);
+            newCollaborator.removeDocument(document);
             document.notifyObservers($"Collaborator {newCollaborator.getUsername()} was removed from {document.title}.");
         }
         public void redo()
