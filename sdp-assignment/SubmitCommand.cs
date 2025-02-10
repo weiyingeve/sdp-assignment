@@ -27,6 +27,7 @@ namespace sdp_assignment
         {
             document.setState(prevState);
             document.notifyObservers($"Submission of document {document.title} was undone. Document has been reverted to previous state.");
+            Console.WriteLine($"{document.getApprover().getUsername()} received a notification: Document has been unsubmitted.");
         }
         public void redo()
         {

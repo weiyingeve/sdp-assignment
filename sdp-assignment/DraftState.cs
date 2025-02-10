@@ -33,6 +33,7 @@ namespace sdp_assignment
                 Console.WriteLine($"{approver.getUsername()} received a notification: You have been appointed as the approver of {document.title}.");
             }
             document.notifyObservers($"Document {document.title} has been submitted for approval.");
+            Console.WriteLine($"{approver.getUsername()} received a notification: {document.title} is ready for review.");
             document.setState(document.UnderReviewState);
         }
         public void pushBack(string comment)
