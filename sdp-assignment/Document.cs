@@ -119,6 +119,12 @@ namespace sdp_assignment
             }
         }
 
+        public void SetConversionType(IDocumentConverter converter)
+        {
+            DocumentConverter = converter;
+            Console.WriteLine($"Conversion type set to {converter.GetType().Name.Replace("Converter", "")}.");
+        }
+
         internal void Notify()
         {
             throw new NotImplementedException();

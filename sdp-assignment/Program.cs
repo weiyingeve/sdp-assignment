@@ -3,12 +3,17 @@ using System.ComponentModel.Design;
 using System.Reflection.Metadata;
 using Document = sdp_assignment.Document;
 Main();
+
+
 void Main()
 {
     List<User> users = new List<User>();
     users.Add(new User("John"));
     users.Add(new User("Jane"));
     users.Add(new User("Mary"));
+    // Create sample documents
+    Document doc = new Document( users[0],"Sample Document");
+    users[0].documents.Add(doc);
 
     bool mainMenuActive = true;
     while (mainMenuActive)
@@ -100,8 +105,27 @@ void Main()
                                                             Console.WriteLine("Name cannot be empty.");
                                                             break;
                                                         case 4: //set file conversion type
+                                                            Console.WriteLine("Choose a format to set for conversion:");
+                                                            Console.WriteLine("1. PDF");
+                                                            Console.WriteLine("2. Microsoft Word");
+                                                            Console.Write("Enter your choice (1 or 2): ");
+                                                            string formatChoice = Console.ReadLine().Trim();
+
+                                                            switch (formatChoice)
+                                                            {
+                                                                case "1":
+                                                                    document.SetConversionType(new PdfConverter());
+                                                                    break;
+                                                                case "2":
+                                                                    document.SetConversionType(new WordConverter());
+                                                                    break;
+                                                                default:
+                                                                    Console.WriteLine("Invalid choice. Conversion type not set.");
+                                                                    break;
+                                                            }
                                                             break;
                                                         case 5: //produce converted type
+                                                            document.ConvertDocument();
                                                             break;
                                                         case 6: //print document contents
                                                             document.Render();
@@ -145,8 +169,28 @@ void Main()
                                                             Console.WriteLine("Name cannot be empty.");
                                                             break;
                                                         case 3: //set file conversion type
+                                                            Console.WriteLine("Choose a format to set for conversion:");
+                                                            Console.WriteLine("1. PDF");
+                                                            Console.WriteLine("2. Microsoft Word");
+                                                            Console.Write("Enter your choice (1 or 2): ");
+                                                            string formatChoice = Console.ReadLine().Trim();
+
+                                                            switch (formatChoice)
+                                                            {
+                                                                case "1":
+                                                                    document.SetConversionType(new PdfConverter());
+                                                                    break;
+                                                                case "2":
+                                                                    document.SetConversionType(new WordConverter());
+                                                                    break;
+                                                                default:
+                                                                    Console.WriteLine("Invalid choice. Conversion type not set.");
+                                                                    break;
+                                                            }
                                                             break;
                                                         case 4: //produce converted type
+                                                            
+                                                            document.ConvertDocument();
                                                             break;
                                                         case 5: //print document contents
                                                             document.Render();
