@@ -38,8 +38,8 @@ namespace sdp_assignment
         }
         public void add(User collaborator)
         {
-            document.registerObserver(collaborator);
-            document.notifyObservers($"User {collaborator.getUsername} has been added to document {document.title}.");
+            collaborator.addDocument(document);
+            document.notifyObservers($"User {collaborator.getUsername()} has been added to document {document.title}.");
         }
         public void edit(User collaborator)
         {

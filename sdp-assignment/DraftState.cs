@@ -26,10 +26,11 @@ namespace sdp_assignment
                     }
                 }
                 document.setApprover(approver);
+                approver.addDocument(document);
                 //notify collaborators
-                document.notifyObservers($"{approver.getUsername} has been appointed as the approver");
+                document.notifyObservers($"{approver.getUsername()} has been appointed as the approver");
                 //notify approver that they have been set as approver
-                Console.WriteLine($"{approver.getUsername} received a notification: You have been appointed as the approver of {document.title}.");
+                Console.WriteLine($"{approver.getUsername()} received a notification: You have been appointed as the approver of {document.title}.");
             }
             document.notifyObservers($"Document {document.title} has been submitted for approval.");
             document.setState(document.UnderReviewState);
@@ -48,8 +49,8 @@ namespace sdp_assignment
         }
         public void add(User collaborator)
         {
-            document.registerObserver(collaborator);
-            //document.notifyObservers($"User {collaborator.getUsername()} has been added to document {document.title}.");
+            collaborator.addDocument(document);
+            document.notifyObservers($"User {collaborator.getUsername()} has been added to document {document.title}.");
         }
         public void edit(User collaborator)
         {
@@ -65,7 +66,7 @@ namespace sdp_assignment
             document.content.Add(newLine);
             Console.WriteLine($"Document {document.title} has been edited. Notifying collaborators...");
             document.prevContentSize++;
-            document.notifyObservers($"{collaborator.getUsername} has made an edit to {document.title}");
+            document.notifyObservers($"{collaborator.getUsername()} has made an edit to {document.title}");
         }
         public void resubmit()
         {
