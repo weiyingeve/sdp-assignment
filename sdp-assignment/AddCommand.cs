@@ -17,12 +17,11 @@ namespace sdp_assignment
         public void execute()
         {
             document.getState().add(newCollaborator);
-            //notify observers
         }
         public void undo()
         {
-            document.collaborators.Remove(newCollaborator);
-            //notify observers
+            document.removeObserver(newCollaborator);
+            document.notifyObservers($"Collaborator {newCollaborator.getUsername()} was removed from {document.title}.");
         }
         public void redo()
         {

@@ -8,21 +8,15 @@ namespace sdp_assignment
 {
     public class Header : DocumentComponent
     {
-        public string Content { get; set; }
-
-        public Header(string content)
+        public string Text { get;  set; }
+        public Header(string text)
         {
-            Content = content;
+            Text = text;
         }
-
         public void Render()
         {
-            Console.WriteLine($"Header: {Content}");
-        }
-
-        public void Edit(string content)
-        {
-            Content = content;
+            Console.WriteLine($"Header: {Text}");
         }
     }
+
 }

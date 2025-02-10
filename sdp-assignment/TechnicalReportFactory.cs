@@ -8,24 +8,17 @@ namespace sdp_assignment
 {
     public class TechnicalReportFactory : DocumentFactory
     {
-        public Document createDocument(User owner)
+        public Header CreateHeader(string text)
         {
-            return new TechnicalReport(owner, this);
+            return new Header(text);
         }
-
-        public Header createHeader(string content)
+        public Footer CreateFooter(string text)
         {
-            return new Header("Technical Report Header");
+            return new Footer(text);
         }
-
-        public Body createBody(string content)
+        public Document CreateDocument(User owner, string title)
         {
-            return new Body("Technical Report Body Content");
-        }
-
-        public Footer createFooter(string content)
-        {
-            return new Footer("Technical Report Footer");
+            return new TechnicalReport(owner, title);
         }
     }
 }

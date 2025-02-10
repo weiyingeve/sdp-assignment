@@ -27,9 +27,11 @@ namespace sdp_assignment
                 }
                 document.setApprover(approver);
                 //notify collaborators
-                document.Notify();
+                document.notifyObservers($"{approver.getUsername} has been appointed as the approver");
                 //notify approver that they have been set as approver
+                Console.WriteLine($"{approver.getUsername} received a notification: You have been appointed as the approver of {document.title}.");
             }
+            document.notifyObservers($"Document {document.title} has been submitted for approval.");
             document.setState(document.UnderReviewState);
         }
         public void pushBack(string comment)
@@ -46,7 +48,8 @@ namespace sdp_assignment
         }
         public void add(User collaborator)
         {
-            document.collaborators.Add(collaborator);
+            document.registerObserver(collaborator);
+            document.notifyObservers($"User {collaborator.getUsername} has been added to document {document.title}.");
         }
         public void edit(User collaborator)
         {
@@ -60,9 +63,9 @@ namespace sdp_assignment
                 newLine = Console.ReadLine();
             }
             document.content.Add(newLine);
+            Console.WriteLine($"Document {document.title} has been edited. Notifying collaborators...");
             document.prevContentSize++;
-            //notifyCollaborators
-            document.Notify();
+            document.notifyObservers($"{collaborator.getUsername} has made an edit to {document.title}");
         }
         public void resubmit()
         {

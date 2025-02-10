@@ -22,12 +22,11 @@ namespace sdp_assignment
         {
             prevState = document.getState();
             document.getState().submit(this.collaborator);
-            //notify observers
         }
         public void undo()
         {
             document.setState(prevState);
-            //notify observers
+            document.notifyObservers($"Submission of document {document.title} was undone. Document has been reverted to previous state.");
         }
         public void redo()
         {
