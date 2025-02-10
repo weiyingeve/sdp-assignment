@@ -18,18 +18,23 @@ namespace sdp_assignment
         {
             if (document.getApprover() == null)
             {
-                foreach (User collaborator in document.collaborators)
+                foreach (Observer collaborator in document.collaborators)
                 {
-                    if (approver == collaborator)
+                    User Collaborator = (User)collaborator;
+                    if (approver.getUsername == Collaborator.getUsername)
                     {
                         Console.WriteLine("Approver cannot be a collaborator!");
                         return;
                     }
                 }
                 document.setApprover(approver);
+
                 //notify collaborators
-                document.Notify();
+                document.notifyObservers($"{approver.getUsername} has been appointed as the approver");
                 //notify approver that they have been set as approver
+                Console.WriteLine($"{approver.getUsername} received a notification: You have been appointed as the approver of {document.title}.");
+                //notify collaborators that document has been submitted for approval
+                document.notifyObservers($"Document {document.title} has been submitted for approval.");
                 document.setState(document.UnderReviewState);
             }
         }
@@ -47,7 +52,8 @@ namespace sdp_assignment
         }
         public void add(User collaborator)
         {
-            document.collaborators.Add(collaborator);
+            document.registerObserver(collaborator);
+            document.notifyObservers($"User {collaborator.getUsername} has been added to document {document.title}.");
         }
         public void edit(User collaborator)
         {
@@ -62,8 +68,7 @@ namespace sdp_assignment
             }
             document.content.Add(newLine);
             document.prevContentSize++;
-            //notifyCollaborators
-            document.Notify();
+            document.notifyObservers($"{collaborator.getUsername} has made an edit to {document.title}");
         }
         public void resubmit()
         {

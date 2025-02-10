@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace sdp_assignment
 {
-    public class Document
+    public class Document : DocumentSubject
     {
         private User owner;
         private User approver;
-        public List<User> collaborators { get; } = new List<User>();
+
         public string title { get; set; }
         public List<string> content { get; set; } = new List<string>();
-        public int prevContentSize { get; set; }
+        public int prevContentSize { get; set; } = 0;
         // for state design pattern
         public DocumentState DraftState { get; private set; }
         public DocumentState UnderReviewState { get; private set; }
@@ -21,18 +21,28 @@ namespace sdp_assignment
         public DocumentState RejectedState { get; private set; }
         public DocumentState PushedBackState { get; private set; }
         private DocumentState state;
-        
+
+        //for observer class
+        public List<Observer> collaborators {  get; private set; }
+
         // for abstract factory design pattern
-        public Header Header { get; set; }
-        public Footer Footer { get; set; }
-        public Body Body { get; set; }
-        public void Render()
+        public Header header { get; set; }
+        public Footer footer { get; set; }
+
+        public void AddContent(string text)
         {
-            Console.WriteLine("=== Document Content: ===");
-            Header.Render();
-            Body.Render();
-            Footer.Render();
-            Console.WriteLine("------------------------\n");
+            content.Add(text);
+        }
+
+        public virtual void Display()
+        {
+            Console.WriteLine($"Document Title: {title}");
+            footer.Render();
+            foreach (var line in content)
+            {
+                Console.WriteLine(line);
+            }
+            footer.Render();
         }
 
         //for strategy design pattern
@@ -42,12 +52,23 @@ namespace sdp_assignment
         // general methods
         public Document(User owner, string title)
         {
+            collaborators = new List<Observer>();
+
             this.owner = owner;
             collaborators.Add(owner);
             this.title = title;
+            content = new List<string>();
+
+            DraftState = new DraftState(this);
+            UnderReviewState = new UnderReviewState(this);
+            ApprovedState = new ApprovedState(this);
+            RejectedState = new RejectedState(this);
+            PushedBackState = new PushedBackState(this);
+
+            state = DraftState;
         }
 
-        public Document(User owner)
+        public Document(string title, string type, List<string> content)
         {
             this.owner = owner;
         }
@@ -125,14 +146,22 @@ namespace sdp_assignment
             Console.WriteLine($"Conversion type set to {converter.GetType().Name.Replace("Converter", "")}.");
         }
 
-        internal void Notify()
+        //for observer 
+        public void notifyObservers(string message)
         {
-            throw new NotImplementedException();
+            foreach (Observer o in collaborators)
+            {
+                o.update(message);
+            }
         }
 
-        internal void Attach(User x)
+        public void registerObserver(Observer observer)
         {
-            throw new NotImplementedException();
+            collaborators.Add(observer);
+        }
+        public void removeObserver(Observer o)
+        {
+            collaborators.Remove(o);
         }
     }
 }

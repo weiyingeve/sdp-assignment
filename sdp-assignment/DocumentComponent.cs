@@ -9,6 +9,6 @@ namespace sdp_assignment
     public interface DocumentComponent
     {
         void Render();
-        void Edit(string content);
     }
+
 }
