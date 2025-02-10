@@ -11,7 +11,8 @@ namespace sdp_assignment
         private User owner;
         private User approver;
         public List<User> collaborators { get; } = new List<User>();
-        public List<string> content { get; } = new List<string>();
+        public string title { get; set; }
+        public List<string> content { get; set; } = new List<string>();
         public int prevContentSize { get; set; }
         // for state design pattern
         public DocumentState DraftState { get; private set; }
@@ -34,12 +35,23 @@ namespace sdp_assignment
             Console.WriteLine("------------------------\n");
         }
 
+        //for strategy design pattern
+        public IDocumentConverter DocumentConverter { get; set; }
+
+
         // general methods
-        public Document(User owner)
+        public Document(User owner, string title)
         {
             this.owner = owner;
             collaborators.Add(owner);
+            this.title = title;
         }
+
+        public Document(User owner)
+        {
+            this.owner = owner;
+        }
+
         public User getOwner()
         {
             return owner;
@@ -55,7 +67,11 @@ namespace sdp_assignment
         }
 
         //for state design pattern
-        public void setState(DocumentState state)
+        public DocumentState getState()
+        {
+            return state;
+        }
+        public virtual void setState(DocumentState state)
         {
             this.state = state;
         }
@@ -76,7 +92,7 @@ namespace sdp_assignment
             state.reject(reason);
         }
 
-        public void addCollaborator(User collaborator)
+        public virtual void addCollaborator(User collaborator)
         {
             state.add(collaborator);
         }
@@ -88,6 +104,35 @@ namespace sdp_assignment
         public void resubmitDocument()
         {
             state.resubmit();
+        }
+
+        //for strategy design pattern
+        public void ConvertDocument()
+        {
+            if (DocumentConverter == null)
+            {
+                Console.WriteLine("No document converter set.");
+            }
+            else
+            {
+                DocumentConverter.Convert(this);
+            }
+        }
+
+        public void SetConversionType(IDocumentConverter converter)
+        {
+            DocumentConverter = converter;
+            Console.WriteLine($"Conversion type set to {converter.GetType().Name.Replace("Converter", "")}.");
+        }
+
+        internal void Notify()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void Attach(User x)
+        {
+            throw new NotImplementedException();
         }
     }
 }
