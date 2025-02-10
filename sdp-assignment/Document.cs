@@ -23,7 +23,7 @@ namespace sdp_assignment
         private DocumentState state;
 
         //for observer class
-        public List<Observer> collaborators {  get; set; }
+        public List<Observer> collaborators {  get; private set; }
 
         // for abstract factory design pattern
         public Header header { get; set; }
@@ -153,7 +153,7 @@ namespace sdp_assignment
 
         public void registerObserver(Observer observer)
         {
-            if (observer != null)
+            if (observer != null && !collaborators.Contains(observer))
             {
                 collaborators.Add(observer);
             }
