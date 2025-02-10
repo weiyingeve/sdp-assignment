@@ -37,7 +37,7 @@ namespace sdp_assignment
         public virtual void Display()
         {
             Console.WriteLine($"Document Title: {title}");
-            footer.Render();
+            header.Render();
             foreach (var line in content)
             {
                 Console.WriteLine(line);

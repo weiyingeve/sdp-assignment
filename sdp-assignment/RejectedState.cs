@@ -50,8 +50,16 @@ namespace sdp_assignment
         }
         public void add(User collaborator)
         {
-            collaborator.addDocument(document);
-            document.notifyObservers($"User {collaborator.getUsername()} has been added to document {document.title}.");
+            if (!document.collaborators.Contains(collaborator))
+            {
+                collaborator.addDocument(document);
+                Console.WriteLine("Collaborator added.");
+                document.notifyObservers($"User {collaborator.getUsername()} has been added to document {document.title}.");
+            }
+            else
+            {
+                Console.WriteLine("User has already been added.");
+            }
         }
         public void edit(User collaborator)
         {
