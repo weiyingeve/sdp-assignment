@@ -66,6 +66,7 @@ namespace sdp_assignment
             {
                 //notify collaborators
                 document.notifyObservers($"{document.title} has been resubmitted for approval.");
+                Console.WriteLine($"{document.getApprover().getUsername()} received a notification: {document.title} is ready for review.");
                 document.setState(document.UnderReviewState);
             }
             else
