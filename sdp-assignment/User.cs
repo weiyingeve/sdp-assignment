@@ -13,7 +13,10 @@ namespace sdp_assignment
     public class User : Observer
     {
         private string username;
-        public List<Document> documents { get; set; } = new List<Document>();
+        //public List<Document> documents { get; set; } = new List<Document>();
+
+        //attribute for observer
+        public List<DocumentSubject> documents {  get; private set; }
 
         //attributes for command
         private DocumentCommand slot;
@@ -24,6 +27,8 @@ namespace sdp_assignment
 
             DocumentCommand noCommand = new NoCommand();
             prevCommand = noCommand;
+
+            documents = new List<DocumentSubject>();
         }
         public string getUsername()
         {
@@ -31,9 +36,25 @@ namespace sdp_assignment
         }
 
         public string Username { get; private set; }
-        public void Update(WorkflowDocument document)
+
+        // for abstract factory
+        public Document CreateDocument(DocumentFactory factory, string title, string headerText, string footerText, List<string> content)
         {
-            Console.WriteLine($"{Username} received a notification: Document '{document.title}' has been updated.");
+            Document doc = factory.CreateDocument(this, title);
+            doc.header = factory.CreateHeader(headerText);
+            doc.footer = factory.CreateFooter(footerText);
+            foreach (var line in content)
+            {
+                doc.AddContent(line);
+            }
+            doc.registerObserver(this);
+            return doc;
+        }
+
+        //for observer
+        public void update(string message)
+        {
+            Console.WriteLine($"{Username} received a notification: {message}");
         }
         public void viewDocuments()
         {
@@ -49,14 +70,7 @@ namespace sdp_assignment
                 Console.Write("\n");
             }
         }
-        public Document createDocument(DocumentFactory factory, User owner, string header, string body, string footer)
-        {
-            var document = factory.createDocument(this);
-            document.Header.Edit(header);
-            document.Body.Edit(body);
-            document.Footer.Edit(footer);
-            return document;
-        }
+
         public void submitForApproval(Document document, User approver)
         {
             //only draft state allows users to undo submitting of document for approval
@@ -146,11 +160,5 @@ namespace sdp_assignment
         {
             prevCommand.redo();
         }
-
-        public void update(WorkflowDocument workflowDocument)
-        {
-            Console.WriteLine($"{Username} received a notification: Document '{workflowDocument.title}' has been updated.");
-        }
     }
-
 }

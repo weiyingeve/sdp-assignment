@@ -20,25 +20,26 @@ namespace sdp_assignment
         public void pushBack(string comment)
         {
             Console.WriteLine("Document has been pushed back. Comment - " + comment);
-            //notify observers
+            document.notifyObservers($"Document has been pushed back by approver - {comment}");
             document.setState(document.PushedBackState);
         }
         public void approve()
         {
             Console.WriteLine("Document has been approved.");
-            //notify observers
+            document.notifyObservers($"Document has been approved by approver.");
             document.setState(document.ApprovedState);
         }
         public void reject(string reason)
         {
             Console.WriteLine("Document has been rejected. Reason - " + reason);
             document.setApprover(null);
-            //notify observers
+            document.notifyObservers($"Document has been rejected by approver - {reason}");
             document.setState(document.RejectedState);
         }
         public void add(User collaborator)
         {
-            document.collaborators.Add(collaborator);
+            document.registerObserver(collaborator);
+            document.notifyObservers($"User {collaborator.getUsername} has been added to document {document.title}.");
         }
         public void edit(User collaborator)
         {

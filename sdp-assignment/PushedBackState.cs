@@ -33,7 +33,8 @@ namespace sdp_assignment
         }
         public void add(User collaborator)
         {
-            document.collaborators.Add(collaborator);
+            document.registerObserver(collaborator);
+            document.notifyObservers($"User {collaborator.getUsername} has been added to document {document.title}.");
         }
         public void edit(User collaborator)
         {
@@ -48,14 +49,14 @@ namespace sdp_assignment
             }
             document.content.Add(newLine);
             //notifyCollaborators
-            document.Notify();
+            document.notifyObservers($"{collaborator.getUsername} has made an edit to {document.title}.");
         }
         public void resubmit()
         {
             if (document.content.Count > document.prevContentSize)
             {
                 //notify collaborators
-                document.Notify();
+                document.notifyObservers($"{document.title} has been resubmitted for approval.");
                 document.setState(document.UnderReviewState);
             }
             else

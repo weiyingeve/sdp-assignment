@@ -42,9 +42,28 @@ void Main()
                             switch (userChoice)
                             {
                                 case 1: //create document
-                                    Console.WriteLine("Enter type of document: ");
-                                    Console.WriteLine("Enter title of document: ");
-                                    //i.createDocument();
+                                    Console.Write("Enter document title: ");
+                                    string title = Console.ReadLine();
+
+                                    Console.Write("Enter header text: ");
+                                    string headerText = Console.ReadLine();
+
+                                    Console.Write("Enter footer text: ");
+                                    string footerText = Console.ReadLine();
+
+                                    List<string> content = new List<string>();
+                                    Console.WriteLine("Enter content lines (type END to finish):");
+                                    string line;
+                                    while ((line = Console.ReadLine()) != "END")
+                                    {
+                                        content.Add(line);
+                                    }
+                                    
+                                    DocumentFactory factory = new TechnicalReportFactory(); // Change as needed
+                                    Document newdoc = i.CreateDocument(factory, title, headerText, footerText, content);
+
+                                    Console.WriteLine("\nDocument Created:\n");
+                                    newdoc.Display();
                                     break;
                                 case 2: //edit document
                                     Console.WriteLine("Name of document: ");
@@ -71,7 +90,6 @@ void Main()
                                                                     if (x.getUsername() == collaboratorName)
                                                                     {
                                                                         i.addCollaborator(document, x);
-                                                                        document.Attach(x); // Register collaborator as observer
                                                                         Console.WriteLine($"{collaboratorName} added as a collaborator and will now receive updates.");
                                                                         break;
                                                                     }
@@ -82,8 +100,6 @@ void Main()
                                                             break;
                                                         case 2: //edit document
                                                             i.editDocument(document);
-                                                            Console.WriteLine($"Document \"{document.title}\" edited. Notifying collaborators...");
-                                                            document.Notify(); // Notify all collaborators about the change
                                                             break;
                                                         case 3: //submit document for approval
                                                             Console.WriteLine("Enter name of approver: ");
@@ -95,8 +111,6 @@ void Main()
                                                                     if (x.getUsername() == approverName)
                                                                     {
                                                                         i.submitForApproval(document, x);
-                                                                        Console.WriteLine($"Document \"{document.title}\" submitted for approval to {approverName}.");
-                                                                        document.Notify(); // Notify all collaborators about the change
                                                                         break;
                                                                     }
                                                                 }
@@ -128,7 +142,7 @@ void Main()
                                                             document.ConvertDocument();
                                                             break;
                                                         case 6: //print document contents
-                                                            document.Render();
+                                                            document.Display();
                                                             break;
                                                         case 0:
                                                             Console.WriteLine("Returning to User Menu...");
@@ -193,7 +207,7 @@ void Main()
                                                             document.ConvertDocument();
                                                             break;
                                                         case 5: //print document contents
-                                                            document.Render();
+                                                            document.Display();
                                                             break;
                                                         case 0:
                                                             Console.WriteLine("Returning to User Menu...");
@@ -294,6 +308,7 @@ void Main()
 int printMainMenu()
 {
     int choice;
+    Console.WriteLine();
     Console.WriteLine("Main Menu");
     Console.WriteLine("--------------------");
     Console.WriteLine("[1] Create new user");

@@ -8,21 +8,14 @@ namespace sdp_assignment
 {
     public class Footer : DocumentComponent
     {
-        public string Content { get; set; }
-
-        public Footer(string content)
+        public string Text { get; set; }
+        public Footer(string text)
         {
-            Content = content;
+            Text = text;
         }
-
         public void Render()
         {
-            Console.WriteLine($"Footer: {Content}");
-        }
-
-        public void Edit(string content)
-        {
-            Content = content;
+            Console.WriteLine($"Footer: {Text}");
         }
     }
 }
