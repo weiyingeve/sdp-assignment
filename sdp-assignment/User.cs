@@ -38,11 +38,11 @@ namespace sdp_assignment
         public string Username { get; private set; }
 
         // for abstract factory
-        public Document CreateDocument(DocumentFactory factory, string title, string headerText, string footerText, List<string> content)
+        public Document createDocument(DocumentFactory factory, string title, string headerText, string footerText, List<string> content)
         {
-            Document doc = factory.CreateDocument(this, title);
-            doc.header = factory.CreateHeader(headerText);
-            doc.footer = factory.CreateFooter(footerText);
+            Document doc = factory.createDocument(this, title);
+            doc.header = factory.createHeader(headerText);
+            doc.footer = factory.createFooter(footerText);
             foreach (var line in content)
             {
                 doc.AddContent(line);

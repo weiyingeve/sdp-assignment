@@ -42,6 +42,9 @@ void Main()
                             switch (userChoice)
                             {
                                 case 1: //create document
+                                    Console.Write("Select document type (1) Grant Report (2) Technical Report: ");
+                                    int type = Convert.ToInt32(Console.ReadLine());
+
                                     Console.Write("Enter document title: ");
                                     string title = Console.ReadLine();
 
@@ -59,11 +62,24 @@ void Main()
                                         content.Add(line);
                                     }
                                     
-                                    DocumentFactory factory = new TechnicalReportFactory(); // Change as needed
-                                    Document newdoc = i.CreateDocument(factory, title, headerText, footerText, content);
+                                    if (type == 1)
+                                    {
+                                        DocumentFactory factory = new GrantReportFactory();
+                                        Document newdoc = i.createDocument(factory, title, headerText, footerText, content);
 
-                                    Console.WriteLine("\nDocument Created:\n");
-                                    newdoc.Display();
+                                        Console.WriteLine("\nDocument Created:\n");
+                                        newdoc.Display();
+                                    }
+                                    else if (type == 2)
+                                    {
+                                        DocumentFactory factory = new TechnicalReportFactory();
+                                        Document newdoc = i.createDocument(factory, title, headerText, footerText, content);
+
+
+                                        Console.WriteLine("\nDocument Created:\n");
+                                        newdoc.Display();
+                                    }
+
                                     break;
                                 case 2: //edit document
                                     Console.WriteLine("Name of document: ");
