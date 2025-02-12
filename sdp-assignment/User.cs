@@ -65,20 +65,6 @@ namespace sdp_assignment
             documents.Remove(document);
             document.removeObserver(this);
         }
-        public void viewDocuments()
-        {
-            Console.WriteLine("Your Documents:");
-            Console.WriteLine("--------------------");
-            foreach (Document document in documents)
-            {
-                Console.Write(document.title);
-                if (document.getOwner() == this)
-                {
-                    Console.Write(" -- Owned");
-                }
-                Console.Write("\n");
-            }
-        }
 
         public void submitForApproval(Document document, User approver)
         {
@@ -151,7 +137,9 @@ namespace sdp_assignment
         {
             document.resubmitDocument();
         }
-        //methods for command
+
+
+        // methods for command
         public void setCommand(DocumentCommand command)
         {
             this.slot = command;
