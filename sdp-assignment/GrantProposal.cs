@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace sdp_assignment
 {
-    public class GrantReport : Document
+    public class GrantProposal : Document
     {
-        public GrantReport(User owner, string title) : base(owner, title) { }
+        public GrantProposal(User owner, string title) : base(owner, title) { }
     }
 }

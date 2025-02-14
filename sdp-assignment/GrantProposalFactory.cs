@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace sdp_assignment
 {
-    public class GrantReportFactory : DocumentFactory
+    public class GrantProposalFactory : DocumentFactory
     {
         public Header createHeader(string text)
         {
@@ -18,7 +18,7 @@ namespace sdp_assignment
         }
         public Document createDocument(User owner, string title)
         {
-            return new GrantReport(owner, title);
+            return new GrantProposal(owner, title);
         }
     }
 

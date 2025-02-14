@@ -7,13 +7,14 @@ using System.Threading.Tasks;
 namespace sdp_assignment
 {
     public class Document : DocumentSubject
-    {
+    { 
         private User owner;
         private User approver;
 
         public string title { get; set; }
         public List<string> content { get; set; } = new List<string>();
         public int prevContentSize { get; set; } = 0;
+
         // for state design pattern
         public DocumentState DraftState { get; set; }
         public DocumentState UnderReviewState { get; set; }
@@ -22,8 +23,8 @@ namespace sdp_assignment
         public DocumentState PushedBackState { get; set; }
         private DocumentState state;
 
-        //for observer class
-        public List<Observer> collaborators {  get; set; }
+        //for observer design pattern
+        public List<Observer> collaborators {  get; private set; }
 
         // for abstract factory design pattern
         public Header header { get; set; }
@@ -37,7 +38,7 @@ namespace sdp_assignment
         public virtual void Display()
         {
             Console.WriteLine($"Document Title: {title}");
-            footer.Render();
+            header.Render();
             foreach (var line in content)
             {
                 Console.WriteLine(line);
@@ -47,7 +48,6 @@ namespace sdp_assignment
 
         //for strategy design pattern
         public IDocumentConverter DocumentConverter { get; set; }
-
 
         // general methods
         public Document(User owner, string title)
@@ -143,7 +143,7 @@ namespace sdp_assignment
             Console.WriteLine($"Conversion type set to {converter.GetType().Name.Replace("Converter", "")}.");
         }
 
-        //for observer 
+        //for observer design pattern
         public void notifyObservers(string message)
         {
             foreach (Observer o in collaborators)
@@ -154,7 +154,7 @@ namespace sdp_assignment
 
         public void registerObserver(Observer observer)
         {
-            if (observer != null)
+            if (observer != null && !collaborators.Contains(observer) && observer != approver)
             {
                 collaborators.Add(observer);
             }

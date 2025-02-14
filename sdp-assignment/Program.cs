@@ -165,7 +165,6 @@ void UserMenu(List<User> users, User user)
                 }
                 break;
 
-
             case 3: //list documents
                 int documentchoice = printDocuments();
                 switch (documentchoice)

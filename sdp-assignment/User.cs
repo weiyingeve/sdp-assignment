@@ -13,7 +13,6 @@ namespace sdp_assignment
     public class User : Observer
     {
         private string username;
-        //public List<Document> documents { get; set; } = new List<Document>();
 
         //attribute for observer
         public List<DocumentSubject> documents { get; private set; }
@@ -35,7 +34,6 @@ namespace sdp_assignment
             return username;
         }
 
-        public string Username { get; private set; }
 
         // for abstract factory
         public Document createDocument(DocumentFactory factory, string title, string headerText, string footerText, List<string> content)
@@ -55,21 +53,17 @@ namespace sdp_assignment
         //for observer
         public void update(string message)
         {
-            Console.WriteLine($"{Username} received a notification: {message}");
+            Console.WriteLine($"{username} received a notification: {message}");
         }
-        public void viewDocuments()
+        public void addDocument(DocumentSubject document)
         {
-            Console.WriteLine("Your Documents:");
-            Console.WriteLine("--------------------");
-            foreach (Document document in documents)
-            {
-                Console.Write(document.title);
-                if (document.getOwner() == this)
-                {
-                    Console.Write(" -- Owned");
-                }
-                Console.Write("\n");
-            }
+            documents.Add(document);
+            document.registerObserver(this);
+        }
+        public void removeDocument(DocumentSubject document)
+        {
+            documents.Remove(document);
+            document.removeObserver(this);
         }
 
         public void submitForApproval(Document document, User approver)
@@ -143,7 +137,9 @@ namespace sdp_assignment
         {
             document.resubmitDocument();
         }
-        //methods for command
+
+
+        // methods for command
         public void setCommand(DocumentCommand command)
         {
             this.slot = command;
