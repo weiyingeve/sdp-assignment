@@ -162,7 +162,7 @@ namespace sdp_assignment
             prevCommand.redo();
         }
 
-        //methds for iterator
+        // methods for iterator
         public IEnumerable<Document> FilterDocuments(Func<Document, bool> filterCondition)
         {
             foreach (Document doc in documents)
