@@ -16,14 +16,14 @@ namespace sdp_assignment
         //public List<Document> documents { get; set; } = new List<Document>();
 
         //attribute for observer
-        public List<DocumentSubject> documents {  get; private set; }
+        public List<DocumentSubject> documents { get; private set; }
 
         //attributes for command
         private DocumentCommand slot;
         private DocumentCommand prevCommand;
         public User(string username)
         {
-            this.username=username;
+            this.username = username;
 
             DocumentCommand noCommand = new NoCommand();
             prevCommand = noCommand;
@@ -126,7 +126,7 @@ namespace sdp_assignment
                 Console.WriteLine("You are not the approver. Unable to reject document.");
             }
         }
-        public void addCollaborator(Document document,User collaborator)
+        public void addCollaborator(Document document, User collaborator)
         {
             if (this == document.getOwner())
             {
@@ -161,5 +161,33 @@ namespace sdp_assignment
         {
             prevCommand.redo();
         }
+
+        //methds for iterator
+        public IEnumerable<Document> FilterDocuments(Func<Document, bool> filterCondition)
+        {
+            foreach (Document doc in documents)
+            {
+                if (filterCondition(doc))
+                {
+                    yield return doc;
+                }
+            }
+        }
+
+         private List<Document> accessibleDocuments = new List<Document>(); // List of documents the user has access to
+
+    // Method to add a document to the user's accessible list
+    public void addAccessibleDocument(Document document)
+    {
+        if (!accessibleDocuments.Contains(document))
+        {
+            accessibleDocuments.Add(document);
+        }
+    }
+
+    public List<Document> getAccessibleDocuments()
+    {
+        return accessibleDocuments;
+    }
     }
 }

@@ -112,6 +112,7 @@ namespace sdp_assignment
         public virtual void addCollaborator(User collaborator)
         {
             state.add(collaborator);
+            collaborator.addAccessibleDocument(this);
         }
 
         public void editDocument(User collaborator)
