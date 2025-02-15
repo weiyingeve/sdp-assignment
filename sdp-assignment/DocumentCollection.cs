@@ -30,14 +30,14 @@ namespace sdp_assignment
             return new AccessibleDocumentIterator(documents, user);
         }
 
-        public IDocumentIterator GetTypeDocumentsIterator(int documentType)
+        public IDocumentIterator GetTypeDocumentsIterator(int documentType, User user)
         {
-            return new TypeDocumentIterator(documents, documentType);
+            return new TypeDocumentIterator(documents, documentType, user);
         }
 
-        public IDocumentIterator GetStateDocumentsIterator(string state)
+        public IDocumentIterator GetStateDocumentsIterator(string state, User user)
         {
-            return new StateDocumentIterator(documents, state);
+            return new StateDocumentIterator(documents, state, user);
         }
     }
 

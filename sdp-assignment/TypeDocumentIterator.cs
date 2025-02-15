@@ -1,32 +1,44 @@
-﻿using sdp_assignment;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-public class TypeDocumentIterator : IDocumentIterator
+namespace sdp_assignment
 {
-    private List<Document> documents;
-    private int type;
-    private int position = 0;
-
-    public TypeDocumentIterator(List<Document> documents, int type)
+    public class TypeDocumentIterator : IDocumentIterator
     {
-        this.documents = documents;
-        this.type = type;
-    }
+        private List<Document> documents;
+        private int type;
+        private User user;
+        private int position = 0;
 
-    public bool HasNext()
-    {
-        while (position < documents.Count)
+        public TypeDocumentIterator(List<Document> documents, int type, User user)
         {
-            if (documents[position].getType() == type)  // 🔴 Compare int values
-            {
-                return true;
-            }
-            position++;
+            this.documents = documents;
+            this.type = type;
+            this.user = user;
         }
-        return false;
+
+        public bool HasNext()
+        {
+            while (position < documents.Count)
+            {
+                Document doc = documents[position];
+                if (doc.getType() == type &&
+                    (doc.getOwner() == user || doc.collaborators.Contains(user)||doc.approver == user))
+                {
+                    return true;
+                }
+                position++;
+            }
+            return false;
+        }
+
+        public Document Next()
+        {
+            return documents[position++];
+        }
     }
 
-    public Document Next()
-    {
-        return documents[position++];
-    }
 }
