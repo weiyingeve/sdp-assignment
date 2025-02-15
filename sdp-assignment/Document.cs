@@ -15,6 +15,8 @@ namespace sdp_assignment
         public List<string> content { get; set; } = new List<string>();
         public int prevContentSize { get; set; } = 0;
 
+        public int type { get; set; } // for iterator (1 = Grant Proposal, 2 = Technical Report)
+
         // for state design pattern
         public DocumentState DraftState { get; set; }
         public DocumentState UnderReviewState { get; set; }
@@ -49,14 +51,26 @@ namespace sdp_assignment
         //for strategy design pattern
         public IDocumentConverter DocumentConverter { get; set; }
 
+        // for iterator 
+        public void setType(int Type)
+        {
+            this.type = Type;
+        }
+
+        public int getType()
+        {
+            return type;
+        }
+
         // general methods
-        public Document(User owner, string title)
+        public Document(User owner, string title, int docType)
         {
             collaborators = new List<Observer>();
 
             this.owner = owner;
             registerObserver(owner);
             this.title = title;
+            this.type = docType;
             content = new List<string>();
             Console.WriteLine(this.ToString());
             DraftState = new DraftState(this);
@@ -163,5 +177,17 @@ namespace sdp_assignment
         {
             collaborators.Remove(o);
         }
+
+        //for iterator pattern
+        public string GetState()
+        {
+            if (state == DraftState) return "Draft";
+            if (state == UnderReviewState) return "Under Review";
+            if (state == ApprovedState) return "Approved";
+            if (state == RejectedState) return "Rejected";
+            if (state == PushedBackState) return "Pushed Back";
+            return "Unknown";
+        }
+
     }
 }

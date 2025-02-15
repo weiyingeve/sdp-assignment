@@ -8,6 +8,6 @@ namespace sdp_assignment
 {
     public class TechnicalReport : Document
     {
-        public TechnicalReport(User owner, string title) : base(owner, title) { }
+        public TechnicalReport(User owner, string title, int docType) : base(owner, title, docType) { }
     }
 }

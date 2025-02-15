@@ -8,7 +8,7 @@ namespace sdp_assignment
 {
     public interface DocumentFactory
     {
-        public Document createDocument(User owner, string title);
+        public Document createDocument(User owner, string title, int docType);
         public Header createHeader(string text);
         public Footer createFooter(string text);
     }

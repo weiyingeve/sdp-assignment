@@ -36,9 +36,9 @@ namespace sdp_assignment
 
 
         // for abstract factory
-        public Document createDocument(DocumentFactory factory, string title, string headerText, string footerText, List<string> content)
+        public Document createDocument(DocumentFactory factory, string title, string headerText, string footerText, List<string> content, int docType)
         {
-            Document doc = factory.createDocument(this, title);
+            Document doc = factory.createDocument(this, title, docType);
             doc.header = factory.createHeader(headerText);
             doc.footer = factory.createFooter(footerText);
             foreach (var line in content)

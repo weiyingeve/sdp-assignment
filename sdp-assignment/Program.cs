@@ -1,6 +1,7 @@
 ﻿using sdp_assignment;
 using System.ComponentModel.Design;
 using System.Reflection.Metadata;
+using System.Xml.Linq;
 using Document = sdp_assignment.Document;
 
 DocumentCollection documentCollection = new DocumentCollection();
@@ -114,11 +115,13 @@ void UserMenu(List<User> users, User user)
                     content.Add(line);
                 }
 
+
                 if (type == 1)
                 {
-                    DocumentFactory factory = new GrantReportFactory();
-                    Document newdoc = user.createDocument(factory, title, headerText, footerText, content);
+                    DocumentFactory factory = new GrantProposalFactory();
+                    Document newdoc = user.createDocument(factory, title, headerText, footerText, content, type);
 
+                    newdoc.setType(type);
                     // Add the new document to the collection
                     documentCollection.AddDocument(newdoc);
 
@@ -128,14 +131,19 @@ void UserMenu(List<User> users, User user)
                 else if (type == 2)
                 {
                     DocumentFactory factory = new TechnicalReportFactory();
-                    Document newdoc = user.createDocument(factory, title, headerText, footerText, content);
+                    Document newdoc = user.createDocument(factory, title, headerText, footerText, content, type);
 
+                    newdoc.setType(type);
                     // Add the new document to the collection
                     documentCollection.AddDocument(newdoc);
 
                     Console.WriteLine("\nDocument Created:\n");
                     newdoc.Display();
                 }
+
+     
+
+            
                 break;
             case 2: //edit document
                 Console.WriteLine("Name of document: ");
@@ -190,6 +198,45 @@ void UserMenu(List<User> users, User user)
                         }
                         break;
 
+                    case 3: //list by type
+                        Console.WriteLine("Enter document type to filter by (1) Grant Proposal (2) Technical Report:");
+                        int filterType = Convert.ToInt32(Console.ReadLine());
+
+                        var typeIterator = documentCollection.GetTypeDocumentsIterator(filterType);
+                        Console.WriteLine("\nDocuments of type: " + (filterType == 1 ? "Grant Proposal" : "Technical Report"));
+                        Console.WriteLine("--------------------");
+
+                        while (typeIterator.HasNext())
+                        {
+                            Document document = typeIterator.Next();
+                            Console.WriteLine(document.title);
+                        }
+                        break;
+
+                    case 4: //list by document state
+                        Console.WriteLine("Enter document state to filter by (1) Draft (2) UnderReview (3) Approved (4) Rejected (5) PushedBack:");
+                        int stateChoice = Convert.ToInt32(Console.ReadLine());
+
+                        string state = stateChoice switch
+                        {
+                            1 => "Draft",
+                            2 => "Under Review",
+                            3 => "Approved",
+                            4 => "Rejected",
+                            5 => "Pushed Back",
+                            _ => "Unknown"
+                        };
+
+                        var stateIterator = documentCollection.GetStateDocumentsIterator(state);
+
+                        Console.WriteLine($"\nDocuments with state '{state}':");
+                        Console.WriteLine("--------------------");
+                        while (stateIterator.HasNext())
+                        {
+                            Document document = stateIterator.Next();
+                            Console.WriteLine($"- {document.title}");
+                        }
+                        break;
                     default:
                         Console.WriteLine("Enter a valid choice.");
                         break;
@@ -229,6 +276,8 @@ int printDocuments()
     Console.WriteLine();
     Console.WriteLine("[1] List owned documents");
     Console.WriteLine("[2] List all accessible documents");
+    Console.WriteLine("[3] List documents by type");
+    Console.WriteLine("[4] List documents by state");
     Console.WriteLine();
     Console.WriteLine("Enter choice: ");
     string input = Console.ReadLine();

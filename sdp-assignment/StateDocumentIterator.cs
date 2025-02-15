@@ -22,7 +22,7 @@ namespace sdp_assignment
         {
             while (position < documents.Count)
             {
-                if (documents[position].getState().GetType().Name.Equals(state, StringComparison.OrdinalIgnoreCase))
+                if (documents[position].GetState().Equals(state, StringComparison.OrdinalIgnoreCase))
                 {
                     return true;
                 }
@@ -30,6 +30,7 @@ namespace sdp_assignment
             }
             return false;
         }
+
 
         public Document Next()
         {

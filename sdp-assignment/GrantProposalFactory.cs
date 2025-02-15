@@ -16,9 +16,9 @@ namespace sdp_assignment
         {
             return new Footer(text);
         }
-        public Document createDocument(User owner, string title)
+        public Document createDocument(User owner, string title,int docType)
         {
-            return new GrantProposal(owner, title);
+            return new GrantProposal(owner, title, docType);
         }
     }
 
