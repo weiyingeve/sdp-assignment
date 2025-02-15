@@ -1,5 +1,6 @@
 ﻿using sdp_assignment;
 using System.ComponentModel.Design;
+using System.Globalization;
 using System.Reflection.Metadata;
 using System.Xml.Linq;
 using Document = sdp_assignment.Document;
@@ -25,47 +26,89 @@ void MainMenu(List<User> users)
         int choice = printMainMenu();
         switch (choice)
         {
-            case 1: //create new user
-                Console.WriteLine("\nEnter new name: ");
-                string newAccount = Console.ReadLine();
-                if (users.Exists(u => u.getUsername() == newAccount))
+            case 1: // Create new user
+                string newAccount;
+                do
                 {
-                    Console.WriteLine("User already exists.");
+                    Console.Write("\nEnter new name: ");
+                    newAccount = Console.ReadLine()?.Trim();
+
+                    // Check if input is empty or null
+                    if (string.IsNullOrEmpty(newAccount))
+                    {
+                        Console.WriteLine("Name cannot be empty. Please enter a valid name.");
+                        continue;
+                    }
+
+                    TextInfo textInfo = CultureInfo.InvariantCulture.TextInfo;
+                    newAccount = textInfo.ToTitleCase(newAccount.ToLower());
+
+                    // Check if user already exists (case-insensitive)
+                    if (users.Exists(u => u.getUsername().Equals(newAccount, StringComparison.OrdinalIgnoreCase)))
+                    {
+                        Console.WriteLine($"User '{newAccount}' already exists. Please choose a different name.");
+                        continue;
+                    }
+
+                    break;
+
+                } while (true);
+
+                users.Add(new User(newAccount));
+                Console.WriteLine($"User '{newAccount}' created successfully!");
+                break;
+
+            case 2: // Login
+                Console.Write("\nEnter your name: ");
+                string name = Console.ReadLine()?.Trim();
+
+                if (string.IsNullOrEmpty(name))
+                {
+                    Console.WriteLine("Name cannot be empty.");
                     break;
                 }
-                users.Add(new User(newAccount));
-                Console.WriteLine("User created successfully!");
-                break;
-            case 2: //login
-                Console.WriteLine("\nEnter your name: ");
-                string name = Console.ReadLine();
-                User user = users.Find(u => u.getUsername() == name);
+
+                // Convert input to Title Case for matching
+                TextInfo textInfoLogin = CultureInfo.InvariantCulture.TextInfo;
+                name = textInfoLogin.ToTitleCase(name.ToLower());
+
+                User user = users.Find(u => u.getUsername().Equals(name, StringComparison.OrdinalIgnoreCase));
                 if (user == null)
                 {
-                    Console.WriteLine($"User {name} does not exist. Try creating a new user.");
-                    return;
+                    Console.WriteLine($"User '{name}' does not exist. Try creating a new user.");
+                    break;
                 }
+
                 Console.WriteLine($"Welcome, {name}!");
                 UserMenu(users, user);
                 break;
-            case 3: // list all users
-                Console.WriteLine();
-                Console.WriteLine("User List:");
+
+            case 3: // List all users
+                Console.WriteLine("\nUser List:");
                 Console.WriteLine("--------------------");
-                foreach (User i in users)
+
+                if (users.Count == 0)
                 {
-                    Console.WriteLine($"{i.getUsername()}");
+                    Console.WriteLine("No users found.");
+                }
+                else
+                {
+                    foreach (User i in users)
+                    {
+                        Console.WriteLine(i.getUsername());
+                    }
                 }
                 break;
-            case 0: // exit
+
+            case 0: // Exit
                 Console.WriteLine("Goodbye!");
                 mainMenuActive = false;
                 break;
+
             default:
-                Console.WriteLine("Please enter a valid choice.");
+                Console.WriteLine("Invalid choice. Please enter a valid option.");
                 break;
         }
-
     }
 }
 
@@ -94,57 +137,63 @@ void UserMenu(List<User> users, User user)
         int userChoice = printUserMenu();
         switch (userChoice)
         {
-            case 1: //create document
-                Console.Write("Select document type (1) Grant Proposal (2) Technical Report: ");
-                int type = Convert.ToInt32(Console.ReadLine());
+            case 1: // create document
+                int type;
+                do
+                {
+                    Console.Write("Select document type (1) Grant Proposal (2) Technical Report: ");
+                    if (int.TryParse(Console.ReadLine(), out type) && (type == 1 || type == 2))
+                    {
+                        break; // Valid input, exit loop
+                    }
+                    Console.WriteLine("Invalid input. Please enter 1 for Grant Proposal or 2 for Technical Report.");
+                } while (true);
 
-                Console.Write("Enter document title: ");
-                string title = Console.ReadLine();
+                string title;
+                do
+                {
+                    Console.Write("Enter document title: ");
+                    title = Console.ReadLine()?.Trim();
+                    if (!string.IsNullOrEmpty(title)) break;
+                    Console.WriteLine("Title cannot be empty. Please enter a valid title.");
+                } while (true);
 
-                Console.Write("Enter header text: ");
-                string headerText = Console.ReadLine();
+                string headerText;
+                do
+                {
+                    Console.Write("Enter header text: ");
+                    headerText = Console.ReadLine()?.Trim();
+                    if (!string.IsNullOrEmpty(headerText)) break;
+                    Console.WriteLine("Header cannot be empty. Please enter a valid header.");
+                } while (true);
 
-                Console.Write("Enter footer text: ");
-                string footerText = Console.ReadLine();
+                string footerText;
+                do
+                {
+                    Console.Write("Enter footer text: ");
+                    footerText = Console.ReadLine()?.Trim();
+                    if (!string.IsNullOrEmpty(footerText)) break;
+                    Console.WriteLine("Footer cannot be empty. Please enter a valid footer.");
+                } while (true);
 
                 List<string> content = new List<string>();
                 Console.WriteLine("Enter content lines (type END to finish):");
                 string line;
-                while ((line = Console.ReadLine()) != "END")
+                while ((line = Console.ReadLine()) != "END") 
                 {
                     content.Add(line);
                 }
 
+                DocumentFactory factory = (type == 1) ? new GrantProposalFactory() : new TechnicalReportFactory();
+                Document newdoc = user.createDocument(factory, title, headerText, footerText, content, type);
 
-                if (type == 1)
-                {
-                    DocumentFactory factory = new GrantProposalFactory();
-                    Document newdoc = user.createDocument(factory, title, headerText, footerText, content, type);
+                newdoc.setType(type);
+                documentCollection.AddDocument(newdoc);
 
-                    newdoc.setType(type);
-                    // Add the new document to the collection
-                    documentCollection.AddDocument(newdoc);
-
-                    Console.WriteLine("\nDocument Created:\n");
-                    newdoc.Display();
-                }
-                else if (type == 2)
-                {
-                    DocumentFactory factory = new TechnicalReportFactory();
-                    Document newdoc = user.createDocument(factory, title, headerText, footerText, content, type);
-
-                    newdoc.setType(type);
-                    // Add the new document to the collection
-                    documentCollection.AddDocument(newdoc);
-
-                    Console.WriteLine("\nDocument Created:\n");
-                    newdoc.Display();
-                }
-
-     
-
-            
+                Console.WriteLine("\nDocument Created:\n");
+                newdoc.Display();
                 break;
+
             case 2: //edit document
                 Console.WriteLine("Name of document: ");
                 string docTitle = Console.ReadLine();
@@ -152,7 +201,7 @@ void UserMenu(List<User> users, User user)
                 if (doc == null)
                 {
                     Console.WriteLine("Document not found.");
-                    return;
+                    break;
                 }
 
                 if (doc.getOwner() == user)
