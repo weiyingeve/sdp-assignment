@@ -158,32 +158,6 @@ namespace sdp_assignment
             prevCommand.redo();
         }
 
-        // methods for iterator
-        public IEnumerable<Document> FilterDocuments(Func<Document, bool> filterCondition)
-        {
-            foreach (Document doc in documents)
-            {
-                if (filterCondition(doc))
-                {
-                    yield return doc;
-                }
-            }
-        }
 
-         private List<Document> accessibleDocuments = new List<Document>(); // List of documents the user has access to
-
-    // Method to add a document to the user's accessible list
-    public void addAccessibleDocument(Document document)
-    {
-        if (!accessibleDocuments.Contains(document))
-        {
-            accessibleDocuments.Add(document);
-        }
-    }
-
-    public List<Document> getAccessibleDocuments()
-    {
-        return accessibleDocuments;
-    }
     }
 }

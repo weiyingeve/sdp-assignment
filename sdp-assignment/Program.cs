@@ -222,73 +222,95 @@ void UserMenu(List<User> users, User user)
                 }
                 break;
 
-            case 3: //list documents
-                int documentchoice = printDocuments();
-                switch (documentchoice)
+            case 3: // list documents
+                while (true)
                 {
-                    case 1: //list owned documents
-                        Console.WriteLine("Document List:");
-                        Console.WriteLine("--------------------");
-                        var ownedIterator = documentCollection.GetOwnedDocumentsIterator(user);
-                        while (ownedIterator.HasNext())
-                        {
-                            Document document = ownedIterator.Next();
-                            Console.WriteLine(document.title);
-                        }
-                        break;
-                    case 2: //list accessible documents
-                        Console.WriteLine("Document List:");
-                        Console.WriteLine("--------------------");
-                        var accessibleIterator = documentCollection.GetAccessibleDocumentsIterator(user);
-                        while (accessibleIterator.HasNext())
-                        {
-                            Document document = accessibleIterator.Next();
-                            Console.WriteLine(document.title);
-                        }
-                        break;
+                    int documentChoice = printDocuments();
 
-                    case 3: //list by type
-                        Console.WriteLine("Enter document type to filter by (1) Grant Proposal (2) Technical Report:");
-                        int filterType = Convert.ToInt32(Console.ReadLine());
+                    if (documentChoice == 0)
+                    {
+                        Console.WriteLine("Returning to User Menu...");
+                        break; // Exit the loop, returning to the User Menu
+                    }
 
-                        var typeIterator = documentCollection.GetTypeDocumentsIterator(filterType, user);
-                        Console.WriteLine("\nDocuments of type: " + (filterType == 1 ? "Grant Proposal" : "Technical Report"));
-                        Console.WriteLine("--------------------");
+                    switch (documentChoice)
+                    {
+                        case 1: // list owned documents
+                            Console.WriteLine("Owned Documents:");
+                            Console.WriteLine("--------------------");
+                            var ownedIterator = documentCollection.GetOwnedDocumentsIterator(user);
+                            while (ownedIterator.HasNext())
+                            {
+                                Document document = ownedIterator.Next();
+                                Console.WriteLine(document.title);
+                            }
+                            break;
 
-                        while (typeIterator.HasNext())
-                        {
-                            Document document = typeIterator.Next();
-                            Console.WriteLine(document.title);
-                        }
-                        break;
+                        case 2: // list accessible documents
+                            Console.WriteLine("Accessible Documents:");
+                            Console.WriteLine("--------------------");
+                            var accessibleIterator = documentCollection.GetAccessibleDocumentsIterator(user);
+                            while (accessibleIterator.HasNext())
+                            {
+                                Document document = accessibleIterator.Next();
+                                Console.WriteLine(document.title);
+                            }
+                            break;
 
-                    case 4: //list by document state
-                        Console.WriteLine("Enter document state to filter by (1) Draft (2) UnderReview (3) Approved (4) Rejected (5) PushedBack:");
-                        int stateChoice = Convert.ToInt32(Console.ReadLine());
+                        case 3: // list by type
+                            Console.WriteLine("Enter document type to filter by (1) Grant Proposal (2) Technical Report:");
+                            if (int.TryParse(Console.ReadLine(), out int filterType) && (filterType == 1 || filterType == 2))
+                            {
+                                var typeIterator = documentCollection.GetTypeDocumentsIterator(filterType, user);
+                                Console.WriteLine("\nDocuments of type: " + (filterType == 1 ? "Grant Proposal" : "Technical Report"));
+                                Console.WriteLine("--------------------");
 
-                        string state = stateChoice switch
-                        {
-                            1 => "Draft",
-                            2 => "Under Review",
-                            3 => "Approved",
-                            4 => "Rejected",
-                            5 => "Pushed Back",
-                            _ => "Unknown"
-                        };
+                                while (typeIterator.HasNext())
+                                {
+                                    Document document = typeIterator.Next();
+                                    Console.WriteLine(document.title);
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("Invalid input. Please enter 1 for Grant Proposal or 2 for Technical Report.");
+                            }
+                            break;
 
-                        var stateIterator = documentCollection.GetStateDocumentsIterator(state, user);
+                        case 4: // list by document state
+                            Console.WriteLine("Enter document state to filter by (1) Draft (2) UnderReview (3) Approved (4) Rejected (5) PushedBack):");
+                            if (int.TryParse(Console.ReadLine(), out int stateChoice) && stateChoice >= 1 && stateChoice <= 5)
+                            {
+                                string state = stateChoice switch
+                                {
+                                    1 => "Draft",
+                                    2 => "Under Review",
+                                    3 => "Approved",
+                                    4 => "Rejected",
+                                    5 => "Pushed Back",
+                                    _ => "Unknown"
+                                };
 
-                        Console.WriteLine($"\nDocuments with state '{state}':");
-                        Console.WriteLine("--------------------");
-                        while (stateIterator.HasNext())
-                        {
-                            Document document = stateIterator.Next();
-                            Console.WriteLine($"- {document.title}");
-                        }
-                        break;
-                    default:
-                        Console.WriteLine("Enter a valid choice.");
-                        break;
+                                var stateIterator = documentCollection.GetStateDocumentsIterator(state, user);
+                                Console.WriteLine($"\nDocuments with state '{state}':");
+                                Console.WriteLine("--------------------");
+
+                                while (stateIterator.HasNext())
+                                {
+                                    Document document = stateIterator.Next();
+                                    Console.WriteLine($"- {document.title}");
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("Invalid input. Please enter a number between 1 and 5.");
+                            }
+                            break;
+
+                        default:
+                            Console.WriteLine("Invalid choice. Please enter a valid option.");
+                            break;
+                    }
                 }
                 break;
 
@@ -327,6 +349,7 @@ int printDocuments()
     Console.WriteLine("[2] List all accessible documents");
     Console.WriteLine("[3] List documents by type");
     Console.WriteLine("[4] List documents by state");
+    Console.WriteLine("[0] Return to user menu");
     Console.WriteLine();
     Console.WriteLine("Enter choice: ");
     string input = Console.ReadLine();

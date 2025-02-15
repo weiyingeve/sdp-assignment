@@ -53,16 +53,6 @@ namespace sdp_assignment
         //for strategy design pattern
         public IDocumentConverter DocumentConverter { get; set; }
 
-        // for iterator 
-        public void setType(int Type)
-        {
-            this.type = Type;
-        }
-
-        public int getType()
-        {
-            return type;
-        }
 
         // general methods
         public Document(User owner, string title, int docType)
@@ -128,7 +118,6 @@ namespace sdp_assignment
         public virtual void addCollaborator(User collaborator)
         {
             state.add(collaborator);
-            collaborator.addAccessibleDocument(this);
         }
 
         public void editDocument(User collaborator)
@@ -190,6 +179,14 @@ namespace sdp_assignment
             if (state == PushedBackState) return "Pushed Back";
             return "Unknown";
         }
+        public void setType(int Type)
+        {
+            this.type = Type;
+        }
 
+        public int getType()
+        {
+            return type;
+        }
     }
 }
