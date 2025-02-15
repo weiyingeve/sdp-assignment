@@ -39,6 +39,7 @@ namespace sdp_assignment
 
         public virtual void Display()
         {
+            Console.WriteLine($"Document Type: {(type == 1 ? "Grant Proposal" : "Technical Report")}");
             Console.WriteLine($"Document Title: {title}");
             header.Render();
             foreach (var line in content)
