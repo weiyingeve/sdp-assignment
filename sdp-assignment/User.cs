@@ -15,14 +15,14 @@ namespace sdp_assignment
         private string username;
 
         //attribute for observer
-        public List<DocumentSubject> documents {  get; private set; }
+        public List<DocumentSubject> documents { get; private set; }
 
         //attributes for command
         private DocumentCommand slot;
         private DocumentCommand prevCommand;
         public User(string username)
         {
-            this.username=username;
+            this.username = username;
 
             DocumentCommand noCommand = new NoCommand();
             prevCommand = noCommand;
@@ -36,9 +36,9 @@ namespace sdp_assignment
 
 
         // for abstract factory
-        public Document createDocument(DocumentFactory factory, string title, string headerText, string footerText, List<string> content)
+        public Document createDocument(DocumentFactory factory, string title, string headerText, string footerText, List<string> content, int docType)
         {
-            Document doc = factory.createDocument(this, title);
+            Document doc = factory.createDocument(this, title, docType);
             doc.header = factory.createHeader(headerText);
             doc.footer = factory.createFooter(footerText);
             foreach (var line in content)
@@ -120,7 +120,7 @@ namespace sdp_assignment
                 Console.WriteLine("You are not the approver. Unable to reject document.");
             }
         }
-        public void addCollaborator(Document document,User collaborator)
+        public void addCollaborator(Document document, User collaborator)
         {
             if (this == document.getOwner())
             {
@@ -157,5 +157,33 @@ namespace sdp_assignment
         {
             prevCommand.redo();
         }
+
+        // methods for iterator
+        public IEnumerable<Document> FilterDocuments(Func<Document, bool> filterCondition)
+        {
+            foreach (Document doc in documents)
+            {
+                if (filterCondition(doc))
+                {
+                    yield return doc;
+                }
+            }
+        }
+
+         private List<Document> accessibleDocuments = new List<Document>(); // List of documents the user has access to
+
+    // Method to add a document to the user's accessible list
+    public void addAccessibleDocument(Document document)
+    {
+        if (!accessibleDocuments.Contains(document))
+        {
+            accessibleDocuments.Add(document);
+        }
+    }
+
+    public List<Document> getAccessibleDocuments()
+    {
+        return accessibleDocuments;
+    }
     }
 }

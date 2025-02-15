@@ -361,3 +361,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/sdp-assignment/StateDocumentIterator.cs
+/sdp-assignment/TypeDocumentIterator.cs
+/sdp-assignment/StateDocumentIterator.cs
+/sdp-assignment/TypeDocumentIterator.cs

@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace sdp_assignment
 {
-    public class TechnicalReport : Document
+    public interface IDocumentIterator
     {
-        public TechnicalReport(User owner, string title, int docType) : base(owner, title, docType) { }
+        bool HasNext();
+        Document Next();
     }
 }

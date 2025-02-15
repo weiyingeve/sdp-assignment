@@ -8,6 +8,6 @@ namespace sdp_assignment
 {
     public class GrantProposal : Document
     {
-        public GrantProposal(User owner, string title) : base(owner, title) { }
+        public GrantProposal(User owner, string title, int docType) : base(owner, title, docType) { }
     }
 }
