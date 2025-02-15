@@ -251,7 +251,7 @@ void UserMenu(List<User> users, User user)
                         Console.WriteLine("Enter document type to filter by (1) Grant Proposal (2) Technical Report:");
                         int filterType = Convert.ToInt32(Console.ReadLine());
 
-                        var typeIterator = documentCollection.GetTypeDocumentsIterator(filterType);
+                        var typeIterator = documentCollection.GetTypeDocumentsIterator(filterType, user);
                         Console.WriteLine("\nDocuments of type: " + (filterType == 1 ? "Grant Proposal" : "Technical Report"));
                         Console.WriteLine("--------------------");
 
@@ -276,7 +276,7 @@ void UserMenu(List<User> users, User user)
                             _ => "Unknown"
                         };
 
-                        var stateIterator = documentCollection.GetStateDocumentsIterator(state);
+                        var stateIterator = documentCollection.GetStateDocumentsIterator(state, user);
 
                         Console.WriteLine($"\nDocuments with state '{state}':");
                         Console.WriteLine("--------------------");

@@ -22,10 +22,15 @@ namespace sdp_assignment
         {
             while (position < documents.Count)
             {
-                if (documents[position].collaborators.Contains(user))
-                {
-                    return true;
+                Document currentDocument = documents[position];
+
+                // Check if user is a collaborator or an approver
+                if (currentDocument.collaborators.Contains(user) || currentDocument.approver == user)
+
+                    {
+                        return true;
                 }
+
                 position++;
             }
             return false;

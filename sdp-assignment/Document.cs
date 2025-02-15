@@ -9,7 +9,8 @@ namespace sdp_assignment
     public class Document : DocumentSubject
     { 
         private User owner;
-        private User approver;
+        public User approver { get; private set; }
+
 
         public string title { get; set; }
         public List<string> content { get; set; } = new List<string>();
