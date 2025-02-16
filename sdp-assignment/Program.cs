@@ -399,7 +399,10 @@ void OwnerMenu(List<User> users, User owner, Document document)
                 }
                 Console.WriteLine("Name cannot be empty.");
                 break;
-            case 4: //set file conversion type
+            case 4: //resubmit document
+                owner.resubmitDocument(document);
+                break;
+            case 5: //set file conversion type
                 Console.WriteLine("Choose a format to set for conversion:");
                 Console.WriteLine("1. PDF");
                 Console.WriteLine("2. Microsoft Word");
@@ -419,16 +422,16 @@ void OwnerMenu(List<User> users, User owner, Document document)
                         break;
                 }
                 break;
-            case 5: //produce converted type
+            case 6: //produce converted type
                 document.ConvertDocument();
                 break;
-            case 6: //print document content
+            case 7: //print document content
                 document.Display();
                 break;
-            case 7: //undo last command
+            case 8: //undo last command
                 owner.undoCommand();
                 break;
-            case 8: //redo command
+            case 9: //redo command
                 owner.redoCommand();
                 break;
             case 0:
@@ -450,11 +453,12 @@ int printOwnerMenu()
     Console.WriteLine("[1] Add new collaborator");
     Console.WriteLine("[2] Edit document");
     Console.WriteLine("[3] Submit for review");
-    Console.WriteLine("[4] Set file conversion type");
-    Console.WriteLine("[5] Produce converted type");
-    Console.WriteLine("[6] Print document contents");
-    Console.WriteLine("[7] Undo last command");
-    Console.WriteLine("[8] Redo last command");
+    Console.WriteLine("[4] Resubmit document");
+    Console.WriteLine("[5] Set file conversion type");
+    Console.WriteLine("[6] Produce converted type");
+    Console.WriteLine("[7] Print document contents");
+    Console.WriteLine("[8] Undo last command");
+    Console.WriteLine("[9] Redo last command");
     Console.WriteLine("[0] Return to main menu");
     Console.WriteLine();
     Console.WriteLine("Enter choice: ");
@@ -491,7 +495,10 @@ void CollaboratorMenu(List<User> users, User collaborator, Document document)
                 }
                 Console.WriteLine("Name cannot be empty.");
                 break;
-            case 3: //set file conversion type
+            case 3: //resubmit document
+                collaborator.resubmitDocument(document);
+                break;
+            case 4: //set file conversion type
                 Console.WriteLine("Choose a format to set for conversion:");
                 Console.WriteLine("1. PDF");
                 Console.WriteLine("2. Microsoft Word");
@@ -511,17 +518,16 @@ void CollaboratorMenu(List<User> users, User collaborator, Document document)
                         break;
                 }
                 break;
-            case 4: //produce converted type
-
+            case 5: //produce converted type
                 document.ConvertDocument();
                 break;
-            case 5: //print document contents
+            case 6: //print document contents
                 document.Display();
                 break;
-            case 6: //undo command
+            case 7: //undo command
                 collaborator.undoCommand();
                 break;
-            case 7: //redo command
+            case 8: //redo command
                 collaborator.redoCommand();
                 break;
             case 0:
@@ -542,11 +548,12 @@ int printCollaboratorMenu()
     Console.WriteLine("--------------------");
     Console.WriteLine("[1] Edit document");
     Console.WriteLine("[2] Submit for review");
-    Console.WriteLine("[3] Set file conversion type");
-    Console.WriteLine("[4] Produce converted type");
-    Console.WriteLine("[5] Print document contents");
-    Console.WriteLine("[6] Undo last command");
-    Console.WriteLine("[7] Redo last command");
+    Console.WriteLine("[3] Resubmit Document");
+    Console.WriteLine("[4] Set file conversion type");
+    Console.WriteLine("[5] Produce converted type");
+    Console.WriteLine("[6] Print document contents");
+    Console.WriteLine("[7] Undo last command");
+    Console.WriteLine("[8] Redo last command");
     Console.WriteLine("[0] Return to main menu");
     Console.WriteLine();
     Console.WriteLine("Enter choice: ");
@@ -563,18 +570,21 @@ void ApproverMenu(User approver, Document document)
         int approverChoice = printApproverMenu();
         switch (approverChoice)
         {
-            case 1:
+            case 1: //push back 
                 Console.WriteLine("Add Comment: ");
                 string comment = Console.ReadLine();
                 approver.pushBackDocument(document, comment);
                 break;
-            case 2:
+            case 2: //approve
                 approver.approveDocument(document);
                 break;
-            case 3:
+            case 3: //reject
                 Console.WriteLine("Add Reason: ");
                 string reason = Console.ReadLine();
                 approver.rejectDocument(document, reason);
+                break;
+            case 4: //print document contents
+                document.Display();
                 break;
             case 0:
                 Console.WriteLine("Returning to User Menu...");
@@ -596,6 +606,7 @@ int printApproverMenu()
     Console.WriteLine("[1] Push Back");
     Console.WriteLine("[2] Approve");
     Console.WriteLine("[3] Reject");
+    Console.WriteLine("[4] Print document contents");
     Console.WriteLine("[0] Return to main menu");
     Console.WriteLine();
     Console.WriteLine("Enter choice: ");
