@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -50,7 +51,7 @@ namespace sdp_assignment
         }
         public void add(User collaborator)
         {
-            if (!document.collaborators.Contains(collaborator))
+            if (!document.collaborators.Contains(collaborator) && collaborator != document.getApprover())
             {
                 collaborator.addDocument(document);
                 Console.WriteLine("Collaborator added.");
@@ -58,7 +59,7 @@ namespace sdp_assignment
             }
             else
             {
-                Console.WriteLine("User has already been added.");
+                Console.WriteLine("User has already been added as a collaborator or is currently the approver.");
             }
         }
         public void edit(User collaborator)
