@@ -345,6 +345,7 @@ int printDocuments()
 {
     int choice;
     Console.WriteLine();
+    Console.WriteLine("Document Menu");
     Console.WriteLine("[1] List owned documents");
     Console.WriteLine("[2] List all accessible documents");
     Console.WriteLine("[3] List documents by type");
@@ -366,38 +367,55 @@ void OwnerMenu(List<User> users, User owner, Document document)
         switch (ownerChoice)
         {
             case 1: // add collaborators
-                Console.Write("Enter collaborator name: ");
-                string collaboratorName = Console.ReadLine();
-                User collaborator = users.Find(u => u.getUsername() == collaboratorName);
-                if (collaborator != null)
+                string collaboratorName;
+                do
                 {
-                    owner.addCollaborator(document, collaborator);
-                    document.addCollaborator(collaborator);
-                }
-                else
-                {
-                    Console.WriteLine("User not found.");
-                }
+                    Console.Write("Enter collaborator name: ");
+                    collaboratorName = Console.ReadLine()?.Trim();
+
+                    if (string.IsNullOrEmpty(collaboratorName))
+                    {
+                        Console.WriteLine("Name cannot be empty. Please enter a valid name.");
+                        continue;
+                    }
+                    collaboratorName = char.ToUpper(collaboratorName[0]) + collaboratorName.Substring(1).ToLower();
+                    User collaborator = users.Find(u => u.getUsername() == collaboratorName);
+                    if (collaborator != null)
+                    {
+                        owner.addCollaborator(document, collaborator);
+                        document.addCollaborator(collaborator);
+                        break;
+                    }
+
+                    Console.WriteLine("User not found. Please enter a valid collaborator name.");
+                } while (true);
                 break;
             case 2: //edit document
                 owner.editDocument(document);
                 break;
             case 3: //submit document for approval
-                Console.WriteLine("Enter name of approver: ");
-                string approverName = Console.ReadLine();
-                if (!string.IsNullOrEmpty(approverName))
+                string approverName;
+                do
                 {
-                    foreach (User x in users)
+                    Console.Write("Enter name of approver: ");
+                    approverName = Console.ReadLine()?.Trim();
+
+                    if (string.IsNullOrEmpty(approverName))
                     {
-                        if (x.getUsername() == approverName)
-                        {
-                            owner.submitForApproval(document, x);
-                            break;
-                        }
+                        Console.WriteLine("Name cannot be empty. Please enter a valid name.");
+                        continue;
                     }
-                    break;
-                }
-                Console.WriteLine("Name cannot be empty.");
+                    approverName = char.ToUpper(approverName[0]) + approverName.Substring(1).ToLower();
+
+                    User approver = users.Find(u => u.getUsername() == approverName);
+                    if (approver != null)
+                    {
+                        owner.submitForApproval(document, approver);
+                        break;
+                    }
+
+                    Console.WriteLine("Approver not found. Please enter a valid name.");
+                } while (true);
                 break;
             case 4: //resubmit document
                 owner.resubmitDocument(document);
@@ -407,19 +425,19 @@ void OwnerMenu(List<User> users, User owner, Document document)
                 Console.WriteLine("1. PDF");
                 Console.WriteLine("2. Microsoft Word");
                 Console.Write("Enter your choice (1 or 2): ");
-                string formatChoice = Console.ReadLine().Trim();
 
-                switch (formatChoice)
+                string formatChoice = Console.ReadLine()?.Trim();
+                if (formatChoice == "1")
                 {
-                    case "1":
-                        document.SetConversionType(new PdfConverter());
-                        break;
-                    case "2":
-                        document.SetConversionType(new WordConverter());
-                        break;
-                    default:
-                        Console.WriteLine("Invalid choice. Conversion type not set.");
-                        break;
+                    document.SetConversionType(new PdfConverter());
+                }
+                else if (formatChoice == "2")
+                {
+                    document.SetConversionType(new WordConverter());
+                }
+                else
+                {
+                    Console.WriteLine("Invalid choice. Conversion type not set.");
                 }
                 break;
             case 6: //produce converted type
@@ -479,21 +497,28 @@ void CollaboratorMenu(List<User> users, User collaborator, Document document)
                 collaborator.editDocument(document);
                 break;
             case 2://submit for approval
-                Console.WriteLine("Enter name of approver: ");
-                string approverName = Console.ReadLine();
-                if (!string.IsNullOrEmpty(approverName))
+                string approverName;
+                do
                 {
-                    foreach (User x in users)
+                    Console.Write("Enter name of approver: ");
+                    approverName = Console.ReadLine()?.Trim();
+
+                    if (string.IsNullOrEmpty(approverName))
                     {
-                        if (x.getUsername() == approverName)
-                        {
-                            collaborator.submitForApproval(document, x);
-                            break;
-                        }
+                        Console.WriteLine("Name cannot be empty. Please enter a valid name.");
+                        continue;
                     }
-                    break;
-                }
-                Console.WriteLine("Name cannot be empty.");
+                    approverName = char.ToUpper(approverName[0]) + approverName.Substring(1).ToLower();
+                    User approver = users.FirstOrDefault(x => x.getUsername() == approverName);
+                    if (approver != null)
+                    {
+                        collaborator.submitForApproval(document, approver);
+                        break;
+                    }
+
+                    Console.WriteLine("Approver not found. Please enter a valid name.");
+
+                } while (true);
                 break;
             case 3: //resubmit document
                 collaborator.resubmitDocument(document);
@@ -503,8 +528,8 @@ void CollaboratorMenu(List<User> users, User collaborator, Document document)
                 Console.WriteLine("1. PDF");
                 Console.WriteLine("2. Microsoft Word");
                 Console.Write("Enter your choice (1 or 2): ");
-                string formatChoice = Console.ReadLine().Trim();
 
+                string formatChoice = Console.ReadLine().Trim();
                 switch (formatChoice)
                 {
                     case "1":
