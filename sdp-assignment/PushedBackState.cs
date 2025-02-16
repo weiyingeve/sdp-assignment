@@ -57,7 +57,6 @@ namespace sdp_assignment
             }
             document.content.Add(newLine);
             Console.WriteLine($"Document {document.title} has been edited. Notifying collaborators...");
-            document.prevContentSize++;
             document.notifyObservers($"{collaborator.getUsername()} has made an edit to {document.title}");
         }
         public void resubmit()

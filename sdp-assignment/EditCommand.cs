@@ -18,12 +18,13 @@ namespace sdp_assignment
         }
         public void execute()
         {
-            prevContent = document.content;
+            prevContent = new List<string>(document.content);
             document.editDocument(collaborator);
 
         }
         public void undo()
         {
+            Console.WriteLine();
             document.content = prevContent;
             Console.WriteLine($"Last edit made by {collaborator.getUsername()} in document {document.title} was removed.");
         }
